@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.22)
 
 set(CMAKE_C_STANDARD 23)
 
@@ -12,12 +12,14 @@ set_target_properties(mylib PROPERTIES PUBLIC_HEADER include/mylib.h)
 target_include_directories(mylib PRIVATE include)
 target_include_directories(mylib PRIVATE src)
 
-include(GNUInstallDirs)
+if(UNIX)
+    include(GNUInstallDirs)
 
-install(TARGETS mylib
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    install(TARGETS mylib
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-configure_file(mylib.pc.in mylib.pc @ONLY)
+    configure_file(mylib.pc.in mylib.pc @ONLY)
 
-install(FILES ${CMAKE_BINARY_DIR}/mylib.pc DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+    install(FILES ${CMAKE_BINARY_DIR}/mylib.pc DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+endif()

@@ -163,24 +163,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named mylib
+# Target rules for targets named llgml
 
 # Build rule for target.
-mylib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mylib
-.PHONY : mylib
+llgml: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 llgml
+.PHONY : llgml
 
 # fast build rule for target.
-mylib/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/build
-.PHONY : mylib/fast
+llgml/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/llgml.dir/build.make CMakeFiles/llgml.dir/build
+.PHONY : llgml/fast
 
 src/print.o: src/print.c.o
 .PHONY : src/print.o
 
 # target to build an object file
 src/print.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/src/print.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/llgml.dir/build.make CMakeFiles/llgml.dir/src/print.c.o
 .PHONY : src/print.c.o
 
 src/print.i: src/print.c.i
@@ -188,7 +188,7 @@ src/print.i: src/print.c.i
 
 # target to preprocess a source file
 src/print.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/src/print.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/llgml.dir/build.make CMakeFiles/llgml.dir/src/print.c.i
 .PHONY : src/print.c.i
 
 src/print.s: src/print.c.s
@@ -196,7 +196,7 @@ src/print.s: src/print.c.s
 
 # target to generate assembly for a file
 src/print.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/src/print.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/llgml.dir/build.make CMakeFiles/llgml.dir/src/print.c.s
 .PHONY : src/print.c.s
 
 # Help Target
@@ -211,7 +211,7 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... mylib"
+	@echo "... llgml"
 	@echo "... src/print.o"
 	@echo "... src/print.i"
 	@echo "... src/print.s"

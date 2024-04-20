@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.23)
 
 set(CMAKE_C_STANDARD 23)
 
@@ -11,6 +11,12 @@ set_target_properties(mylib PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 set_target_properties(mylib PROPERTIES PUBLIC_HEADER include/mylib.h)
 target_include_directories(mylib PRIVATE include)
 target_include_directories(mylib PRIVATE src)
+
+add_test(NAME llgml-test COMMAND llgml-test)
+file(GLOB TEST_SOURCES CONFIGURE_DEPENDS test/*.c)
+add_executable(llgml-test ${TEST_SOURCES})
+target_include_directories(llgml-test PRIVATE include)
+target_link_libraries(llgml-test mylib)
 
 if(UNIX)
     include(GNUInstallDirs)

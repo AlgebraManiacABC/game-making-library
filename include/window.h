@@ -1,18 +1,20 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
-#include "stb_image.h"
 #include "debug.h"
+
+extern SDL_Window *gm_window;
+extern SDL_GLContext *gm_glContext;
 
 NODISCARD
 /**
  * Initualizes SDL and creates an SDL window with GL context.
  * Additionally initializes glew!
  *
- * @param SDL_initFlags Flags to send to `SDL_Init()`
- * @param SDL_winFlags Flags to send to `SDL_CreateWindow()`
  * @param winTitle Title to give the initial window
  * @param win_x initial x position of the window
  * @param win_y initial y position of the window
@@ -23,10 +25,7 @@ NODISCARD
  *
  * @return `EXIT_SUCCESS` (`0`) if everything initialized as expected. Otherwise, you will have to check the error with `whatHappened()`
  */
-int gm_initWindow(Uint32 SDL_initFlags,
-				Uint32 SDL_winFlags,
-				const char * winTitle,
-				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h,
-				SDL_Window ** w, SDL_GLContext * glContext);
+int gm_initWindow(const char * winTitle,
+				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h);
 
 #endif

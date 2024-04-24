@@ -2,6 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-	print("Hello world!");
+	printf("Hello world!\n");
+	gm_initWindow(
 	return EXIT_SUCCESS;
 }

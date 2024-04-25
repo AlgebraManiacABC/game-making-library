@@ -17,6 +17,7 @@ file(GLOB TEST_SOURCES CONFIGURE_DEPENDS test/*.c)
 add_executable(llgml-test ${TEST_SOURCES})
 target_include_directories(llgml-test PRIVATE include)
 target_link_libraries(llgml-test llgml)
+target_link_libraries(llgml-test m)
 
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})

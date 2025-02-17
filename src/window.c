@@ -1,7 +1,10 @@
+#define STB_IMAGE_IMPLEMENTATION
 #include "window.h"
 
 SDL_Window *gm_window;
 SDL_GLContext *gm_glContext;
+int gm_windowWidth;
+int gm_windowHeight;
 
 //	What functions needed?
 //
@@ -17,7 +20,7 @@ int gm_initWindow(const char * winTitle,
 	int err = EXIT_SUCCESS;
 	if( (err = SDL_Init(SDL_INIT_EVERYTHING)) )
 	{
-		setError(ERR_MESG,"SDL Initialization error: %s",SDL_GetError());
+		gm_setError(ERR_MESG,"SDL Initialization error: %s",SDL_GetError());
 		return EXIT_FAILURE;
 	}
 
@@ -25,7 +28,7 @@ int gm_initWindow(const char * winTitle,
 						SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	if(!gm_window)
 	{
-		setError(ERR_MESG,"SDL Window creation failure: %s",SDL_GetError());
+		gm_setError(ERR_MESG,"SDL Window creation failure: %s",SDL_GetError());
 		SDL_Quit();
 		return EXIT_FAILURE;
 	}
@@ -34,7 +37,7 @@ int gm_initWindow(const char * winTitle,
 	gm_glContext = SDL_GL_CreateContext(gm_window);
 	if(!gm_glContext)
 	{
-		setError(ERR_MESG,"SDL GL Context creation failure: %s",SDL_GetError());
+		gm_setError(ERR_MESG,"SDL GL Context creation failure: %s",SDL_GetError());
 		SDL_DestroyWindow(gm_window);
 		SDL_Quit();
 		return EXIT_FAILURE;
@@ -43,7 +46,7 @@ int gm_initWindow(const char * winTitle,
 	GLenum glewError = glewInit();
 	if(glewError != GLEW_OK)
 	{
-		setError(ERR_MESG,"Glew initialization failure: %s",glewGetErrorString(glewError));
+		gm_setError(ERR_MESG,"Glew initialization failure: %s",glewGetErrorString(glewError));
 		SDL_GL_DeleteContext(gm_glContext);
 		SDL_DestroyWindow(gm_window);
 		SDL_Quit();
@@ -58,4 +61,17 @@ int gm_initWindow(const char * winTitle,
 	//SDL_WarpMouseInWindow(gm_window,win_w/2,win_h/2);
 
 	return EXIT_SUCCESS;
+}
+
+void gm_exit()
+{
+	if(gm_glContext)
+	{
+		SDL_GL_DeleteContext(gm_glContext);
+	}
+	if(gm_window)
+	{
+		SDL_DestroyWindow(gm_window);
+	}
+	SDL_Quit();
 }

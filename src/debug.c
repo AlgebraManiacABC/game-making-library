@@ -13,7 +13,7 @@ char * errorString = NULL;
 errType lastError = ERR_CODE;
 Uint32 lastErrorCode = ERR_UNDEF;
 
-void setError(errType type, ...)
+void gm_setError(errType type, ...)
 {
 	va_list args;
 	va_start(args, type);
@@ -38,7 +38,7 @@ void setError(errType type, ...)
 	lastError = ERR_MESG;
 }
 
-const char * getError(void)
+const char * gm_getError(void)
 {
 	if(lastError == ERR_CODE)
 	{

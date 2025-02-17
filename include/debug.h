@@ -15,6 +15,8 @@ typedef uint32_t Uint32;
 
 #define NODISCARD [[nodiscard]]
 
+#define GM_ERROR (-1)
+
 #define ERR_UNDEF (0)
 #define ERR_NOFIL (1)
 #define ERR_SHADE (2)
@@ -25,8 +27,8 @@ typedef bool errType;
 #define ERR_CODE (false)
 #define ERR_MESG (true)
 
-#define ERR_CODE_RETURN_X(code,retVal) { setError(ERR_CODE,code); return (retVal); }
-#define ERR_CODE_RETURN(code) { setError(ERR_CODE,code); return; }
+#define ERR_CODE_RETURN_X(code,retVal) { gm_setError(ERR_CODE,code); return (retVal); }
+#define ERR_CODE_RETURN(code) { gm_setError(ERR_CODE,code); return; }
 #define ERR_NULLP_RET_X(x) ERR_CODE_RETURN_X(ERR_NULLP,x)
 #define ERR_NULLP_RET_NULL ERR_NULLP_RET_X(NULL)
 #define ERR_NULLP_RET_FAIL ERR_NULLP_RET_X(EXIT_FAILURE)
@@ -56,17 +58,17 @@ extern Uint32 lastErrorCode;
  * @param type
  * @param ...
  */
-void setError(errType type, ...);
+void gm_setError(errType type, ...);
 
 NODISCARD
 /**
- * Gets the most current error string set by setError().
+ * Gets the most current error string set by gm_setError().
  * Please use as soon as an error is detected,
  * otherwise the error message may get stale.
  *
  * @returns the error string as a const char *
  */
-const char * getError(void);
+const char * gm_getError(void);
 
 void print1dFloatArrayAsTable(float *arr, size_t rows, size_t cols);
 

@@ -22,11 +22,13 @@ NODISCARD
  * @param win_y initial y position of the window
  * @param win_w initial width of the window
  * @param win_h initial height of the window
+ * @param min_win_w initial minimum width of the window
+ * @param min_win_h initial minimum height of the window
  *
  * @return `EXIT_SUCCESS` (`0`) if everything initialized as expected. Otherwise, you will have to check the error with `whatHappened()`
  */
 int gm_initWindow(const char * winTitle,
-				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h);
+				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h, Uint32 min_win_w, Uint32 min_win_h);
 
 /**
  * Closes the window and releases any GM memory

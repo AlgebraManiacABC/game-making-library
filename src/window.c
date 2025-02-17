@@ -15,7 +15,7 @@ int gm_windowHeight;
 //	 - glewInit
 
 int gm_initWindow(const char * winTitle,
-				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h)
+				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h, Uint32 min_win_w, Uint32 min_win_h)
 {
 	int err = EXIT_SUCCESS;
 	if( (err = SDL_Init(SDL_INIT_EVERYTHING)) )
@@ -32,6 +32,8 @@ int gm_initWindow(const char * winTitle,
 		SDL_Quit();
 		return EXIT_FAILURE;
 	}
+
+	SDL_SetWindowMinimumSize(gm_window, min_win_w, min_win_h);
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	gm_glContext = SDL_GL_CreateContext(gm_window);

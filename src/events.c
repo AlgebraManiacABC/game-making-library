@@ -23,4 +23,5 @@ int gm_handleEvents()
 				break;
 		}
 	}
+	return EXIT_SUCCESS;
 }

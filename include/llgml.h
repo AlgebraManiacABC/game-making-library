@@ -2,3 +2,5 @@
 #include "window.h"
 #include "events.h"
 #include "render.h"
+#include "shader.h"
+#include "delay.h"

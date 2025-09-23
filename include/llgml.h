@@ -1,6 +1,6 @@
-#include "stb_image.h"
 #include "window.h"
 #include "events.h"
 #include "shader.h"
 #include "delay.h"
 #include "object_3d.h"
+#include "stl.h"

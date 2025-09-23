@@ -1,37 +1,10 @@
 #include "shader.h"
 #include "debug.h"
-
-char* readEntireFile(const char* filename)
-{
-	FILE* file = fopen(filename, "rb");
-	if (!file)
-	{
-		gm_setError(ERR_CODE, ERR_NOFIL);
-		return NULL;
-	}
-
-	fseek(file, 0, SEEK_END);
-	size_t fileLength = ftell(file);
-	rewind(file);
-
-	char * fileContents = malloc(fileLength + 1);
-	if (!fileContents)
-	{
-		gm_setError(ERR_CODE, ERR_NOMEM);
-		fclose(file);
-		return NULL;
-	}
-
-	fread(fileContents, 1, fileLength, file);
-	fileContents[fileLength] = '\0';
-	fclose(file);
-
-	return fileContents;
-}
+#include "files.h"
 
 GLuint gm_createShader(const char* shaderFilename, GLenum shaderType)
 {
-	const char* shaderSource = readEntireFile(shaderFilename);
+	const char* shaderSource = _gm_readEntireTextFile(shaderFilename);
 	if (!shaderSource) return 0;
 	GLuint shaderID = glCreateShader(shaderType);
 	glShaderSource(shaderID, 1, &shaderSource, NULL);

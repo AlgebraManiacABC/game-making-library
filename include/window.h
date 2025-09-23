@@ -6,7 +6,6 @@
 #include "stb_image.h"
 #include "debug.h"
 
-NODISCARD
 /**
  * Initualizes SDL and creates an SDL window with GL context.
  * Additionally initializes glew!
@@ -23,6 +22,7 @@ NODISCARD
  *
  * @return `EXIT_SUCCESS` (`0`) if everything initialized as expected. Otherwise, you will have to check the error with `whatHappened()`
  */
+NODISCARD
 int gm_initWindow(Uint32 SDL_initFlags,
 				Uint32 SDL_winFlags,
 				const char * winTitle,

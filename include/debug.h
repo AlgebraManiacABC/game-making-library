@@ -52,11 +52,11 @@ extern Uint32 lastErrorCode;
 
 /**
  * Sets the error message to either a predefined error string (`ERR_CODE`) or a custom,
- * printf-style formatted string (`ERR_MESG`). The next argument is either the error code
- * or the formatted string (which would then be followed by any necessary matching variables)
+ * printf-style formatted string without trailing newline (`ERR_MESG`).
  *
- * @param type
- * @param ...
+ * @param type `ERR_CODE` to set a predefined error message, or `ERR_MESG` to create a custom one.
+ * @param ... Either the error code (if `ERR_CODE`) or a formatted string with additional
+ * variables if needed.
  */
 void gm_setError(errType type, ...);
 

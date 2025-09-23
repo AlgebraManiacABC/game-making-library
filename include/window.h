@@ -4,6 +4,7 @@
 #include "stb_image.h"
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
+#include "color.h"
 #include "debug.h"
 
 extern SDL_Window *gm_window;
@@ -29,6 +30,9 @@ extern int gm_windowHeight;
 NODISCARD
 int gm_initWindow(const char * winTitle,
 				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h, Uint32 min_win_w, Uint32 min_win_h);
+
+void gm_renderClear(gm_Color clearColor);
+void gm_renderDisplay();
 
 /**
  * Closes the window and releases any GM memory

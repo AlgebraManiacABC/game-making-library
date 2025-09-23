@@ -17,8 +17,8 @@ int gm_windowHeight;
 int gm_initWindow(const char * winTitle,
 				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h, Uint32 min_win_w, Uint32 min_win_h)
 {
-	int err = EXIT_SUCCESS;
-	if( (err = SDL_Init(SDL_INIT_EVERYTHING)) )
+	int err = SDL_Init(SDL_INIT_EVERYTHING);
+	if (err)
 	{
 		gm_setError(ERR_MESG,"SDL Initialization error: %s",SDL_GetError());
 		return EXIT_FAILURE;
@@ -26,7 +26,7 @@ int gm_initWindow(const char * winTitle,
 
 	gm_window = SDL_CreateWindow(winTitle, win_x, win_y, win_w, win_h,
 						SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-	if(!gm_window)
+	if (!gm_window)
 	{
 		gm_setError(ERR_MESG,"SDL Window creation failure: %s",SDL_GetError());
 		SDL_Quit();
@@ -37,7 +37,7 @@ int gm_initWindow(const char * winTitle,
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	gm_glContext = SDL_GL_CreateContext(gm_window);
-	if(!gm_glContext)
+	if (!gm_glContext)
 	{
 		gm_setError(ERR_MESG,"SDL GL Context creation failure: %s",SDL_GetError());
 		SDL_DestroyWindow(gm_window);
@@ -46,7 +46,7 @@ int gm_initWindow(const char * winTitle,
 	}
 
 	GLenum glewError = glewInit();
-	if(glewError != GLEW_OK)
+	if (glewError != GLEW_OK)
 	{
 		gm_setError(ERR_MESG,"Glew initialization failure: %s",glewGetErrorString(glewError));
 		SDL_GL_DeleteContext(gm_glContext);
@@ -65,13 +65,29 @@ int gm_initWindow(const char * winTitle,
 	return EXIT_SUCCESS;
 }
 
+void gm_renderDisplay()
+{
+	SDL_GL_SwapWindow(gm_window);
+}
+
+void gm_renderClear(gm_Color color)
+{
+	static gm_Color clearColor = GM_COLOR_BLACK;
+	if (!gm_ColorEquals(clearColor,color))
+	{
+		clearColor = color;
+		glClearColor(color.r, color.g, color.b, color.a);
+	}
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void gm_exit()
 {
-	if(gm_glContext)
+	if (gm_glContext)
 	{
 		SDL_GL_DeleteContext(gm_glContext);
 	}
-	if(gm_window)
+	if (gm_window)
 	{
 		SDL_DestroyWindow(gm_window);
 	}

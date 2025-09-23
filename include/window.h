@@ -12,7 +12,6 @@ extern int gm_windowWidth;
 extern int gm_windowHeight;
 #define GM_ASPECTRATIO (gm_windowWidth / (float)gm_windowHeight)
 
-NODISCARD
 /**
  * Initualizes the GM and opens a window.
  * The inverse of this is `gm_exit()`
@@ -27,6 +26,7 @@ NODISCARD
  *
  * @return `EXIT_SUCCESS` (`0`) if everything initialized as expected. Otherwise, you will have to check the error with `whatHappened()`
  */
+NODISCARD
 int gm_initWindow(const char * winTitle,
 				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h, Uint32 min_win_w, Uint32 min_win_h);
 

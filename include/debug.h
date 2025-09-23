@@ -60,7 +60,6 @@ extern Uint32 lastErrorCode;
  */
 void gm_setError(errType type, ...);
 
-NODISCARD
 /**
  * Gets the most current error string set by gm_setError().
  * Please use as soon as an error is detected,
@@ -68,6 +67,7 @@ NODISCARD
  *
  * @returns the error string as a const char *
  */
+NODISCARD
 const char * gm_getError(void);
 
 void print1dFloatArrayAsTable(float *arr, size_t rows, size_t cols);

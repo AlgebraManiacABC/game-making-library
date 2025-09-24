@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.23)
 project(llgml VERSION 0.1.0
 	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
     LANGUAGES C)
-set(PRERELEASE "alpha.5")
+set(PRERELEASE "alpha.6")
 
 set(CMAKE_C_STANDARD 23)
 
@@ -112,7 +112,10 @@ if (UNIX)
 endif()
 
 set(CPACK_PACKAGE_NAME "llgml")
-set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}$<$<BOOL:${PRERELEASE}>:-${PRERELEASE}>")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+if(PRERELEASE)
+	set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION}-${PRERELEASE}")
+endif()
 set(CPACK_GENERATOR "TGZ;ZIP")
 set(CPACK_PACKAGE_FILE_NAME "llgml-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 include(CPack)

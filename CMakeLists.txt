@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.23)
 project(llgml VERSION 0.1.0
 	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
     LANGUAGES C)
-set(PRERELEASE "alpha.18")
+set(PRERELEASE "alpha.19")
 
 set(CMAKE_C_STANDARD 23)
 
@@ -28,7 +28,7 @@ target_include_directories(llgml
 # Define for private headers to guard accidental inclusion by users
 target_compile_definitions(llgml PRIVATE PROJECT_INTERNAL_BUILD)
 # For improved safety
-if (MSVC)
+if(MSVC)
 	target_compile_options(llgml PRIVATE /W4 /WX /wd4100)
 else()
 	target_compile_options(llgml PRIVATE -Wall -Werror)
@@ -36,9 +36,19 @@ endif()
 
 # Dependencies:
 find_package(SDL2 REQUIRED)
-find_package(GLEW REQUIRED GLEW_USE_STATIC_LIBS)
+find_package(GLEW CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
 find_library(M_LIB m)
+
+if(TARGET GLEW::GLEW)
+	set(GLEW_LINK GLEW::GLEW)
+elseif(TARGET GLEW::glew_s)
+	set(GLEW_LINK GLEW::glew_s)
+	target_compile_definitions(llgml PRIVATE GLEW_STATIC)
+	target_compile_definitions(llgml_test PRIVATE GLEW_STATIC)
+else()
+	message(FATAL_ERROR "Found glew config but no GLEW::GLEW or GLEW::glew_s target.")
+endif()
 
 # Testing
 enable_testing()
@@ -59,16 +69,8 @@ if (WIN32)
 	target_link_libraries(llgml_test PRIVATE SDL2::SDL2main)
 endif()
 
-if (UNIX)
-	target_link_libraries(llgml PRIVATE GLEW::GLEW)
-	target_link_libraries(llgml_test PRIVATE GLEW::GLEW)
-else()
-	target_link_libraries(llgml PRIVATE GLEW::glew_s)
-	target_link_libraries(llgml_test PRIVATE GLEW::glew_s)
-endif()
-
-target_link_libraries(llgml PRIVATE	SDL2::SDL2 OpenGL::GL)
-target_link_libraries(llgml_test PRIVATE SDL2::SDL2 OpenGL::GL llgml)
+target_link_libraries(llgml PRIVATE	SDL2::SDL2 ${GLEW_LINK} OpenGL::GL)
+target_link_libraries(llgml_test PRIVATE SDL2::SDL2 ${GLEW_LINK} OpenGL::GL llgml)
 
 # Install
 include(GNUInstallDirs)

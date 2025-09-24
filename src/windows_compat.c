@@ -15,7 +15,7 @@ int asprintf(char ** str, const char * fmt, ...)
 	#include <stdarg.h>
 	#include <stdio.h>
 	#include <stdlib.h>
-	static int vasprintf(char **strp, const char *fmt, va_list ap) {
+	int vasprintf(char **strp, const char *fmt, va_list ap) {
 		va_list ap2; va_copy(ap2, ap);
 		int needed = _vscprintf(fmt, ap2);
 		va_end(ap2);

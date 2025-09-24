@@ -25,6 +25,14 @@ int main(int argc, char *argv[])
 	gm_setActiveShaderProgram(shaderProg);
 
 	gm_setFrameRate(60.0f);
+
+	Object3D_t * teapot = gm_create3dObjectFromSTL("../test/teapot.stl");
+	if (teapot == NULL)
+	{
+		fprintf(stderr, "%s\n", gm_getError());
+		return EXIT_FAILURE;
+	}
+
 	while(true)
 	{
 		gm_beginFrame();

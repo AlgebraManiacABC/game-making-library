@@ -33,9 +33,11 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          git clone https://github.com/microsoft/vcpkg $env:VCPKG_ROOT
-          & $env:VCPKG_ROOT\bootstrap-vcpkg.bat
-          & $env:VCPKG_ROOT\vcpkg.exe install sdl2 glew --triplet x64-windows
+          $VCPKG_ROOT = Join-Path $env:GITHUB_WORKSPACE 'vcpkg'
+          git clone https://github.com/microsoft/vcpkg $VCPKG_ROOT
+          & "$VCPKG_ROOT\bootstrap-vcpkg.bat"
+          & "$VCPKG_ROOT\vcpkg.exe" install sdl2 glew --triplet x64-windows
+          "VCPKG_ROOT=$VCPKG_ROOT" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       # Configurations
       - name: Configure (Windows)

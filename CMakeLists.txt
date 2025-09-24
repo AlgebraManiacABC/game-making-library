@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.23)
 project(llgml VERSION 0.1.0
 	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
     LANGUAGES C)
-set(PRERELEASE "alpha.2")
+set(PRERELEASE "alpha.3")
 
 set(CMAKE_C_STANDARD 23)
 
@@ -38,12 +38,16 @@ endif()
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED GLEW_USE_STATIC_LIBS)
 find_package(OpenGL REQUIRED)
+find_library(M_LIB m)
 
 # Link dependencies
+if(M_LIB)
+	target_link_libraries(llgml PRIVATE ${M_LIB})
+	target_link_libraries(llgml_test PRIVATE ${M_LIB})
+endif()
+
 if (WIN32)
-	target_link_libraries(SDL2::SDL2main)
-else()
-	target_link_libraries(m)
+	target_link_libraries(llgml PRIVATE SDL2::SDL2main)
 endif()
 target_link_libraries(llgml
 	PRIVATE	SDL2::SDL2	GLEW::GLEW	OpenGL::GL
@@ -54,7 +58,7 @@ enable_testing()
 file(GLOB TEST_SOURCES CONFIGURE_DEPENDS test/*.c)
 add_executable(llgml_test ${TEST_SOURCES})
 target_include_directories(llgml_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(llgml_test PRIVATE SDL2::SDL2main SDL2::SDL2 GLEW::GLEW OpenGL::GL llgml m)
+target_link_libraries(llgml_test PRIVATE SDL2::SDL2main SDL2::SDL2 GLEW::GLEW OpenGL::GL llgml)
 target_compile_options(llgml_test PRIVATE -Wall -Werror)
 add_test(NAME llgml_test COMMAND llgml_test)
 

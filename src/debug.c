@@ -18,7 +18,7 @@ void gm_setError(errType type, ...)
 	va_list args;
 	va_start(args, type);
 
-	if(type == ERR_CODE)
+	if (type == ERR_CODE)
 	{
 		lastErrorCode = va_arg(args,Uint32);
 		va_end(args);
@@ -28,24 +28,24 @@ void gm_setError(errType type, ...)
 
 	//	setErrorMesg to the formatted string (second arg)
 	char * fmt = va_arg(args, char *);
-	if(errorString)
+	if (errorString)
 	{
 		free(errorString);
 		errorString = NULL;
 	}
-	vasprintf(&errorString,fmt,args);
+	(void)vasprintf(&errorString,fmt,args);
 	va_end(args);
 	lastError = ERR_MESG;
 }
 
 const char * gm_getError(void)
 {
-	if(lastError == ERR_CODE)
+	if (lastError == ERR_CODE)
 	{
 		return errorMessages[lastErrorCode];
 	}
 
-	if(!errorString)
+	if (!errorString)
 	{
 		return errorMessages[ERR_UNDEF];
 	}

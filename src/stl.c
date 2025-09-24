@@ -34,7 +34,7 @@ Object3D_t * gm_create3dObjectFromSTL(char * filename)
         gm_setError(ERR_CODE,ERR_NOMEM);
         return NULL;
     }
-    for (int i = 0; i < obj->numTriangles; i++)
+    for (Uint32 i = 0; i < obj->numTriangles; i++)
     {
         // https://docs.fileformat.com/cad/stl/
         size_t offset = 84 + (i * SIZEOF_STL_TRIANGLE);

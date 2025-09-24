@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-	printf("Hello world!\n");
+	if (argc > 1) printf("Hello world! (%s)\n",argv[1]);
 	int err = EXIT_SUCCESS;
 	err = gm_initWindow("LLGML Test",
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,

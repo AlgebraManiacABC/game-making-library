@@ -1,7 +1,7 @@
 #ifndef DELAY_H
 #define DELAY_H
 
-void gm_msDelay(float);
+void gm_msDelay(Uint32);
 
 // Framerate functions.
 // Do note: These currently work for "Maximum" framerates.

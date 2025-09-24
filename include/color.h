@@ -9,8 +9,8 @@ typedef struct gm_Color_s
 
 }	gm_Color;
 
-static const gm_Color GM_COLOR_BLACK = { 0.0, 0.0, 0.0, 0.0 };
-static const gm_Color GM_COLOR_WHITE = { 1.0, 1.0, 1.0, 1.0 };
+#define GM_COLOR_BLACK ((gm_Color){0.0f,0.0f,0.0f,1.0f})
+#define GM_COLOR_WHITE ((gm_Color){1.0f,1.0f,1.0f,1.0f})
 
 bool gm_ColorEquals(gm_Color, gm_Color);
 

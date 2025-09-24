@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.23)
 project(llgml VERSION 0.1.0
 	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
     LANGUAGES C)
-set(PRERELEASE "alpha.14")
+set(PRERELEASE "alpha.15")
 
 set(CMAKE_C_STANDARD 23)
 
@@ -59,11 +59,11 @@ if (WIN32)
 	target_link_libraries(llgml_test PRIVATE SDL2::SDL2main)
 endif()
 target_link_libraries(llgml
-	PRIVATE	SDL2::SDL2	GLEW::GLEW	OpenGL::GL
+	PRIVATE	SDL2::SDL2 GLEW::glew_s OpenGL::GL
 )
 
 target_link_libraries(llgml_test
-	PRIVATE SDL2::SDL2 GLEW::GLEW OpenGL::GL llgml
+	PRIVATE SDL2::SDL2 GLEW::glew_s OpenGL::GL llgml
 )
 
 # Install

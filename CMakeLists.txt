@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.23)
 project(llgml VERSION 0.1.0
 	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
     LANGUAGES C)
-set(PRERELEASE "alpha.19")
+set(PRERELEASE "alpha.20")
 
 set(CMAKE_C_STANDARD 23)
 
@@ -36,18 +36,29 @@ endif()
 
 # Dependencies:
 find_package(SDL2 REQUIRED)
-find_package(GLEW CONFIG REQUIRED)
+find_package(GLEW CONFIG QUIET)
 find_package(OpenGL REQUIRED)
 find_library(M_LIB m)
 
+if(NOT glew_FOUND)
+	find_package(GLEW REQUIRED)  # Module finder
+endif()
+
+set(GLEW_LINK "")
 if(TARGET GLEW::GLEW)
 	set(GLEW_LINK GLEW::GLEW)
 elseif(TARGET GLEW::glew_s)
 	set(GLEW_LINK GLEW::glew_s)
 	target_compile_definitions(llgml PRIVATE GLEW_STATIC)
 	target_compile_definitions(llgml_test PRIVATE GLEW_STATIC)
+elseif(DEFINED GLEW_LIBRARIES)
+	set(GLEW_LINK ${GLEW_LIBRARIES})
+	if(DEFINED GLEW_INCLUDE_DIRS)
+		target_include_directories(llgml PRIVATE ${GLEW_INCLUDE_DIRS})
+		target_include_directories(llgml_test PRIVATE ${GLEW_INCLUDE_DIRS})
+	endif()
 else()
-	message(FATAL_ERROR "Found glew config but no GLEW::GLEW or GLEW::glew_s target.")
+	message(FATAL_ERROR "GLEW found, but no usable targets/vars exposed.")
 endif()
 
 # Testing

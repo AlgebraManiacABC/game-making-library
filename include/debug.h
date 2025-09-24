@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <string.h>
+#include <stdbool.h>
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 typedef uint32_t Uint32;

@@ -1,6 +1,8 @@
 #ifndef COLOR_H
 #define COLOR_H
 
+#include <stdbool.h>
+
 typedef struct gm_Color_s
 {
 	float r, g, b, a;

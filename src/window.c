@@ -80,7 +80,7 @@ void gm_renderDisplay()
 
 void gm_renderClear(gm_Color color)
 {
-	static gm_Color clearColor = GM_COLOR_BLACK;
+	static gm_Color clearColor = {};
 	if (!gm_ColorEquals(clearColor,color))
 	{
 		clearColor = color;

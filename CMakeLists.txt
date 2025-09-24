@@ -1,50 +1,109 @@
 cmake_minimum_required(VERSION 3.23)
 
+project(llgml VERSION 0.0.1
+	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
+    LANGUAGES C)
+
 set(CMAKE_C_STANDARD 23)
 
-project(llgml VERSION 0.0.1
-	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games")
+# Low-Level Game-Making Library
 file(GLOB SOURCES CONFIGURE_DEPENDS src/*.c)
 add_library(llgml SHARED ${SOURCES})
-set_target_properties(llgml PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(llgml PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
-set_target_properties(llgml PROPERTIES PUBLIC_HEADER include/llgml.h)
-target_include_directories(llgml PRIVATE include)
-target_include_directories(llgml PRIVATE src)
-target_compile_options(llgml PRIVATE -Wall -Werror)
+set_target_properties(llgml PROPERTIES
+        VERSION ${PROJECT_VERSION}
+        SOVERSION ${PROJECT_VERSION_MAJOR})
 
-add_test(NAME test COMMAND test)
-file(GLOB TEST_SOURCES CONFIGURE_DEPENDS test/*.c)
-add_executable(test ${TEST_SOURCES})
-target_include_directories(test PRIVATE include)
-target_link_libraries(test llgml)
-target_link_libraries(test m)
-target_compile_options(test PRIVATE -Wall -Werror)
+# Library's Public vs Private Headers
+set(PUBLIC_INC  "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(INTERNAL_INC "${CMAKE_CURRENT_SOURCE_DIR}/include/internal")
+target_include_directories(llgml
+		PUBLIC
+		$<BUILD_INTERFACE:${PUBLIC_INC}>
+		$<INSTALL_INTERFACE:include>        # only the public dir for consumers
+		PRIVATE
+		$<BUILD_INTERFACE:${INTERNAL_INC}>  # internal only while building this project
+)
 
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
-
-find_package(GLEW REQUIRED GLEW_USE_STATIC_LIBS)
-include_directories(${GLEW_INCLUDE_DIRS})
-if(UNIX)
-	target_link_libraries(${PROJECT_NAME} "/usr/lib/x86_64-linux-gnu/libGLEW.so")
+# Define for private headers to guard accidental inclusion by users
+target_compile_definitions(llgml PRIVATE PROJECT_INTERNAL_BUILD)
+# For improved safety
+if (MSVC)
+	target_compile_options(llgml PRIVATE /W4 /WX)
 else()
-	target_link_libraries(${PROJECT_NAME} "C:/Program Files (x86)/glew/lib/libglew32.dll.a")
+	target_compile_options(llgml PRIVATE -Wall -Werror)
 endif()
 
+# Dependencies:
+find_package(SDL2 REQUIRED)
+find_package(GLEW REQUIRED GLEW_USE_STATIC_LIBS)
 find_package(OpenGL REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
 
-if(UNIX)
-    include(GNUInstallDirs)
-
-    install(TARGETS llgml
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-    configure_file(llgml.pc.in llgml.pc @ONLY)
-
-    install(FILES ${CMAKE_BINARY_DIR}/llgml.pc DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+# Link dependencies
+if (WIN32)
+	target_link_libraries(SDL2::SDL2main)
+else()
+	target_link_libraries(m)
 endif()
+target_link_libraries(llgml
+	PRIVATE	SDL2::SDL2	GLEW::GLEW	OpenGL::GL
+)
+
+# Testing
+enable_testing()
+file(GLOB TEST_SOURCES CONFIGURE_DEPENDS test/*.c)
+add_executable(llgml_test ${TEST_SOURCES})
+target_include_directories(llgml_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(llgml_test PRIVATE SDL2::SDL2main SDL2::SDL2 GLEW::GLEW OpenGL::GL llgml m)
+target_compile_options(llgml_test PRIVATE -Wall -Werror)
+add_test(NAME llgml_test COMMAND llgml_test)
+
+# Install
+include(GNUInstallDirs)
+
+install(TARGETS llgml
+        EXPORT llgmlTargets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# Install all public headers (keep internals out)
+install(DIRECTORY ${PUBLIC_INC}/
+		DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+		FILES_MATCHING
+		PATTERN "*.h"
+		PATTERN "internal*" EXCLUDE
+)
+
+# Export targets for find_package
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+        ${CMAKE_CURRENT_BINARY_DIR}/llgmlConfigVersion.cmake
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY SameMajorVersion)
+configure_package_config_file(
+        ${CMAKE_CURRENT_LIST_DIR}/cmake/llgmlConfig.cmake.in
+        ${CMAKE_CURRENT_BINARY_DIR}/llgmlConfig.cmake
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/llgml)
+install(EXPORT llgmlTargets
+        NAMESPACE llgml::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/llgml)
+
+install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/llgmlConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/llgmlConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/llgml)
+
+# pkg-config (UNIX)
+if (UNIX)
+	configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/llgml.pc.in
+			${CMAKE_CURRENT_BINARY_DIR}/llgml.pc @ONLY)
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/llgml.pc
+			DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+endif()
+
+set(CPACK_PACKAGE_NAME "llgml")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+set(CPACK_GENERATOR "TGZ;ZIP")          # add NSIS or WIX on Windows; DEB/RPM on Linux if desired
+set(CPACK_PACKAGE_FILE_NAME "llgml-${PROJECT_VERSION}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
+include(CPack)

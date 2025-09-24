@@ -2,9 +2,7 @@
 #define SHADERS_H
 
 #define GLEW_STATIC
-#include <stdio.h>
 #include <GL/glew.h>
-#include <stdarg.h>
 
 GLuint gm_createShader(const char* shaderFilename, GLenum shaderType);
 

@@ -1,8 +1,6 @@
 #ifndef DELAY_H
 #define DELAY_H
 
-#include <SDL2/SDL.h>
-
 void gm_msDelay(float);
 
 // Framerate functions.

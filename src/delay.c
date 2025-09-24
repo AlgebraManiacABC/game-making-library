@@ -1,3 +1,4 @@
+#include <SDL2/SDL.h>
 #include "delay.h"
 
 float gm_fps = 60.0f;

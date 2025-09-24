@@ -1,7 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "stb_image.h"
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include "color.h"
@@ -14,7 +13,7 @@ extern int gm_windowHeight;
 #define GM_ASPECTRATIO (gm_windowWidth / (float)gm_windowHeight)
 
 /**
- * Initualizes the GM and opens a window.
+ * Initializes the GM and opens a window.
  * The inverse of this is `gm_exit()`
  *
  * @param winTitle Title to give the initial window

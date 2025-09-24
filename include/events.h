@@ -1,7 +1,6 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
-#include <stdbool.h>
 #include <SDL2/SDL_types.h>
 #include "debug.h"
 

@@ -1,4 +1,5 @@
 #define STB_IMAGE_IMPLEMENTATION
+#include "internal/stb_image.h"
 #include "window.h"
 
 SDL_Window *gm_window;

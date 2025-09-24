@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.23)
 project(llgml VERSION 0.1.0
 	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
     LANGUAGES C)
-set(PRERELEASE "alpha.22")
+set(PRERELEASE "alpha.23")
 
 set(CMAKE_C_STANDARD 23)
 
@@ -13,6 +13,13 @@ add_library(llgml SHARED ${SOURCES})
 set_target_properties(llgml PROPERTIES
         VERSION ${PROJECT_VERSION}
         SOVERSION ${PROJECT_VERSION_MAJOR})
+if(MSVC)
+	# ensure an import lib is generated even without __declspec(dllexport)
+	set_target_properties(llgml PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON
+			ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/$<CONFIG>"
+			LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/$<CONFIG>"
+			RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>")
+endif()
 
 # Library's Public vs Private Headers
 set(PUBLIC_INC  "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -72,6 +79,10 @@ else()
 	target_compile_options(llgml_test PRIVATE -Wall -Werror)
 endif()
 add_test(NAME llgml_test COMMAND llgml_test)
+if(WIN32)
+	set_tests_properties(llgml_test PROPERTIES
+			ENVIRONMENT "PATH=$<TARGET_FILE_DIR:llgml>;$ENV{PATH}")
+endif()
 
 # Link dependencies
 if(M_LIB)
@@ -80,7 +91,6 @@ if(M_LIB)
 endif()
 
 if (WIN32)
-	target_link_libraries(llgml PRIVATE SDL2::SDL2main)
 	target_link_libraries(llgml_test PRIVATE SDL2::SDL2main)
 endif()
 

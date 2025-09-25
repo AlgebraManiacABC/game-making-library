@@ -4,13 +4,10 @@
 #include "windows_compat.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <stdint.h>
-#include <stdarg.h>
-#include <string.h>
+#include <stdbool.h>
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
 typedef uint32_t Uint32;
 
 #if defined(_MSC_VER) && !defined(__clang__)

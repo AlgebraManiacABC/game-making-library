@@ -44,6 +44,9 @@ int gm_initWindow(const char * winTitle,
 	SDL_SetWindowMinimumSize(gm_window, min_win_w, min_win_h);
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 	gm_glContext = SDL_GL_CreateContext(gm_window);
 	if (!gm_glContext)
 	{
@@ -63,7 +66,8 @@ int gm_initWindow(const char * winTitle,
 		return EXIT_FAILURE;
 	}
 	glEnable(GL_DEBUG_OUTPUT);
-	glDebugMessageCallback(MessageCallback,0);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+	glDebugMessageCallback(MessageCallback, NULL);
 
 	stbi_set_flip_vertically_on_load(true);
 

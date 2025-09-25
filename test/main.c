@@ -14,9 +14,14 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	GLuint shaderProg = gm_createShaderProgram(2,
-		gm_createShader("../shaders/xyz.vert", GL_VERTEX_SHADER),
-		gm_createShader("../shaders/white.frag", GL_FRAGMENT_SHADER));
+	const GLuint vert = gm_createShader("../shaders/perspective.vert", GL_VERTEX_SHADER);
+	const GLuint frag = gm_createShader("../shaders/normals.frag", GL_FRAGMENT_SHADER);
+	if (! vert || ! frag)
+	{
+		fprintf(stderr, "%s\n", gm_getError());
+		return EXIT_FAILURE;
+	}
+	const GLuint shaderProg = gm_createShaderProgram(2, vert, frag);
 	if (!shaderProg)
 	{
 		fprintf(stderr, "%s\n", gm_getError());
@@ -38,18 +43,17 @@ int main(int argc, char *argv[])
 		gm_beginFrame();
 
 		err = gm_handleEvents();
-		if (err != EXIT_SUCCESS) break;
+		if (err == GM_QUIT) break;
+		if (err == GM_ERROR)
+		{
+			fprintf(stderr, "%s\n", gm_getError());
+			return EXIT_FAILURE;
+		}
 
 		gm_renderClear(GM_COLOR_BLACK);
 		gm_renderDisplay();
 
 		gm_endFrame();
-	}
-	if (err == GM_ERROR)
-	{
-		fprintf(stderr, "%s\n", gm_getError());
-		gm_exit();
-		return EXIT_FAILURE;
 	}
 	gm_exit();
 	return EXIT_SUCCESS;

@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
 	gm_setFrameRate(60.0f);
 
-	vec3 startPos = {0.0, 0.0, 6};
+	vec3 startPos = {0.0f, 0.0f, 6.0f};
 	err = gm_cameraInit(GM_CAMERA_INIT_POSITION, startPos);
 	if (err)
 	{
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 		icosahedron_indices, sizeof(icosahedron_indices) / sizeof(GLfloat),
 		false, false
 	);
-    vec3 icoPos = {0.0, 5.0, 0.0};
+    vec3 icoPos = {0.0f, 5.0f, 0.0f};
     gm_setObjectPosition(icosahedron, icoPos);
 
 	Object3D_t * teapot = gm_create3dObjectFromSTL("../test/teapot.stl");
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 	    fprintf(stderr, "%s\n", gm_getError());
 	    return EXIT_FAILURE;
 	}
-    vec3 teapotPos = {0.0, -1.5, 0.0};
+    vec3 teapotPos = {0.0f, -1.5f, 0.0f};
     gm_setObjectPosition(teapot, teapotPos);
 
 	gm_setWireframe(true);

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.23)
 project(llgml VERSION 0.2.0
 	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
     LANGUAGES C)
-set(PRERELEASE "alpha.6")
+set(PRERELEASE "alpha.7")
 
 set(CMAKE_C_STANDARD 23)
 
@@ -36,9 +36,9 @@ target_include_directories(llgml
 target_compile_definitions(llgml PRIVATE PROJECT_INTERNAL_BUILD)
 # For improved safety
 if(MSVC)
-	target_compile_options(llgml PRIVATE /W4 /WX /wd4100)
+	target_compile_options(llgml PRIVATE /W4 /WX /wd4100 /wd4324)
 else()
-	target_compile_options(llgml PRIVATE -Wall -Werror)
+	target_compile_options(llgml PRIVATE -Wall -Werror -Wextra -Wpedantic -Wno-unused)
 endif()
 
 # Dependencies:
@@ -104,9 +104,9 @@ file(GLOB TEST_SOURCES CONFIGURE_DEPENDS test/*.c)
 add_executable(llgml_test ${TEST_SOURCES})
 target_include_directories(llgml_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 if(MSVC)
-	target_compile_options(llgml_test PRIVATE /W4 /WX /wd4100)
+	target_compile_options(llgml_test PRIVATE /W4 /WX /wd4100 /wd4324)
 else()
-	target_compile_options(llgml_test PRIVATE -Wall -Werror)
+	target_compile_options(llgml_test PRIVATE -Wall -Werror -Wextra -Wpedantic -Wno-unused)
 endif()
 add_test(NAME llgml_test COMMAND llgml_test)
 if(WIN32)

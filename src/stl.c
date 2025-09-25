@@ -20,10 +20,10 @@ Object3D_t * gm_create3dObjectFromSTL(char * filename)
     BinaryFile_t stlFile = _gm_readEntireBinaryFile(filename);
     if (stlFile.fileLength <= 0) return NULL;
     // Header is 80 bytes, triangle count immediately after as Uint32
-    obj->numTriangles = *(Uint32*)(&stlFile.fileData[80]);
+    obj->numTriangles = (size_t)(*(Uint32*)(&stlFile.fileData[80]));
     if (obj->numTriangles * SIZEOF_STL_TRIANGLE_WITHOUT_ATTR + 84 > stlFile.fileLength)
     {
-        gm_setError(ERR_MESG, "STL File size (%lu) inconsistent with triangle count (%lu)!",
+        gm_setError(ERR_MESG, "STL File size (%llu) inconsistent with triangle count (%llu)!",
             stlFile.fileLength,
             obj->numTriangles);
         return NULL;
@@ -35,7 +35,7 @@ Object3D_t * gm_create3dObjectFromSTL(char * filename)
         return NULL;
     }
     size_t offset = 84;
-    for (Uint32 i = 0; i < obj->numTriangles; i++)
+    for (size_t i = 0; i < obj->numTriangles; i++)
     {
         // https://docs.fileformat.com/cad/stl/
         // REAL32[3] – Normal vector
@@ -73,6 +73,6 @@ Object3D_t * gm_create3dObjectFromSTL(char * filename)
     glm_vec3_zero(obj->pos);
     glm_mat4_identity(obj->model);
     glCreateBuffers(1, &obj->vbo);
-    glNamedBufferData(obj->vbo, obj->numTriangles * sizeof(Triangle_t), obj->triangles, GL_STATIC_DRAW);
+    glNamedBufferData(obj->vbo, (GLsizeiptr)obj->numTriangles * sizeof(Triangle_t), obj->triangles, GL_STATIC_DRAW);
     return obj;
 }

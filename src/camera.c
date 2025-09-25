@@ -37,7 +37,7 @@ int gm_cameraInit(gm_CameraInitFlags flags, ...)
     GLfloat startFOV = 90.0f;
     if (flags & GM_CAMERA_INIT_FOV)
     {
-        startFOV = va_arg(args, GLdouble);
+        startFOV = (GLfloat)va_arg(args, GLdouble);
         glm_clamp(startFOV, 0.0f, 90.0f);
     }
 

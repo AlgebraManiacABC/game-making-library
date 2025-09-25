@@ -25,7 +25,7 @@ struct Object3D_s
 {
     // The triangles must be contiguous in memory
     Triangle_t * triangles;
-    Uint32 numTriangles;
+    size_t numTriangles;
     vec3 pos;
     mat4 model;
     GLuint vbo;

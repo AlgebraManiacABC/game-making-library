@@ -39,7 +39,7 @@ Object3D_t * gm_create3dObjectFromTriangles(Triangle_t * triangles, int numTrian
     obj->numTriangles = numTriangles;
     glm_mat4_identity(obj->model);
     glCreateBuffers(1, &obj->vbo);
-    glNamedBufferData(obj->vbo, obj->numTriangles * sizeof(Triangle_t), obj->triangles, GL_STATIC_DRAW);
+    glNamedBufferData(obj->vbo, (GLsizeiptr)obj->numTriangles * sizeof(Triangle_t), obj->triangles, GL_STATIC_DRAW);
     return obj;
 }
 
@@ -75,7 +75,7 @@ Object3D_t * gm_create3dObjectFromVerticesAndIndices(GLfloat * vertices, size_t 
         gm_setError(ERR_CODE, ERR_NOMEM);
         return NULL;
     }
-    for (int tri=0; tri<obj->numTriangles; tri++)
+    for (size_t tri=0; tri<obj->numTriangles; tri++)
     {
         // Construct each triangle by copying over their vertices' information
         for (int vert=0; vert<3; vert++)
@@ -122,7 +122,7 @@ Object3D_t * gm_create3dObjectFromVerticesAndIndices(GLfloat * vertices, size_t 
     }
     glm_mat4_identity(obj->model);
     glCreateBuffers(1, &obj->vbo);
-    glNamedBufferData(obj->vbo, obj->numTriangles * sizeof(Triangle_t), obj->triangles, GL_STATIC_DRAW);
+    glNamedBufferData(obj->vbo, (GLsizeiptr)obj->numTriangles * sizeof(Triangle_t), obj->triangles, GL_STATIC_DRAW);
     return obj;
 }
 
@@ -176,5 +176,5 @@ void gm_renderObject(Object3D_t * obj, GLuint program)
     GLuint model = glGetUniformLocation(program, "model");
     glUniformMatrix4fv(model, 1, GL_FALSE, (GLfloat*)obj->model);
     glVertexArrayVertexBuffer(VAO, 0, obj->vbo, 0, sizeof(Vertex_t));
-    glDrawArrays(GL_TRIANGLES, 0, obj->numTriangles * 3);
+    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)obj->numTriangles * 3);
 }

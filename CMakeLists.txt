@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.23)
 project(llgml VERSION 0.2.0
 	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
     LANGUAGES C)
-set(PRERELEASE "alpha.5")
+set(PRERELEASE "alpha.6")
 
 set(CMAKE_C_STANDARD 23)
 
@@ -73,11 +73,29 @@ endif()
 # CGLM Fallback: fetch cglm from source if not found
 if(NOT cglm_FOUND)
     include(FetchContent)
+    set(CGLM_STATIC ON  CACHE BOOL "" FORCE)
     FetchContent_Declare(cglm
             GIT_REPOSITORY https://github.com/recp/cglm.git
             GIT_TAG v0.9.2
     )
     FetchContent_MakeAvailable(cglm)
+endif()
+
+# Normalize whatever cglm defined to the canonical name cglm::cglm
+if(NOT TARGET cglm::cglm)
+    if(TARGET cglm)                           # many versions define this
+        add_library(cglm::cglm ALIAS cglm)
+    elseif(TARGET cglm_shared)
+        add_library(cglm::cglm ALIAS cglm_shared)
+    elseif(TARGET cglm_static)
+        add_library(cglm::cglm ALIAS cglm_static)
+    elseif(TARGET cglm::cglm-header-only)     # if they provide an interface target
+        add_library(cglm::cglm ALIAS cglm::cglm-header-only)
+    elseif(TARGET cglm_headers)               # older/alt interface name, just in case
+        add_library(cglm::cglm ALIAS cglm_headers)
+    else()
+        message(FATAL_ERROR "cglm fetched but no known target was defined")
+    endif()
 endif()
 
 # Testing

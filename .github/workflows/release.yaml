@@ -78,6 +78,8 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    # Only release on main branch
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/download-artifact@v4
         with:

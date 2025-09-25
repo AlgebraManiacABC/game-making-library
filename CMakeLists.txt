@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.23)
 
-project(llgml VERSION 0.1.0
+project(llgml VERSION 0.2.0
 	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
     LANGUAGES C)
-set(PRERELEASE "alpha.23")
+set(PRERELEASE "alpha.3")
 
 set(CMAKE_C_STANDARD 23)
 

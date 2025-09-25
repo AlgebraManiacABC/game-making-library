@@ -13,7 +13,11 @@
 #include <SDL2/SDL_opengl.h>
 typedef uint32_t Uint32;
 
-#define NODISCARD [[nodiscard]]
+#if defined(_MSC_VER) && !defined(__clang__)
+    #define NODISCARD
+#else
+    #define NODISCARD [[nodiscard]]
+#endif
 
 #define GM_ERROR (-1)
 

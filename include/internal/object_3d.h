@@ -7,6 +7,7 @@
 #define LLGML_OBJECT_3D_INTERNAL_H
 
 #include <object_3d.h>
+#include <cglm/cglm.h>
 
 struct Vertex_s
 {
@@ -25,6 +26,13 @@ struct Object3D_s
     // The triangles must be contiguous in memory
     Triangle_t * triangles;
     Uint32 numTriangles;
+    vec3 pos;
+    mat4 model;
+    GLuint vbo;
 };
+
+extern GLuint VAO;
+
+void gm_initializeVAO();
 
 #endif //LLGML_OBJECT_3D_INTERNAL_H

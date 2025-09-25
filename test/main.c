@@ -38,6 +38,16 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
+	Object3D_t * icosahedron = gm_create3dObjectFromVerticesAndIndices(
+		icosahedron_vertices, 3 * sizeof(GLfloat),
+		icosahedron_indices, sizeof(icosahedron_indices) / sizeof(GLfloat),
+		false, false
+	);
+    vec3 icoPos = {0.0, 5.0, 0.0};
+    gm_setObjectPosition(icosahedron, icoPos);
+
+    vec3 teapotPos = {0.0, -1.5, 0.0};
+    gm_setObjectPosition(teapot, teapotPos);
 	while(true)
 	{
 		gm_beginFrame();
@@ -51,6 +61,11 @@ int main(int argc, char *argv[])
 		}
 
 		gm_renderClear(GM_COLOR_BLACK);
+
+		gm_renderObject(icosahedron,shaderProg);
+		gm_rotateObject(icosahedron, rotateRad);
+		gm_renderObject(teapot, shaderProg);
+
 		gm_renderDisplay();
 
 		gm_endFrame();

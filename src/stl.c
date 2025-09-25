@@ -70,5 +70,9 @@ Object3D_t * gm_create3dObjectFromSTL(char * filename)
         //  will have TODO some research on STL attributes
         // For now, I used calloc, so they can be left alone.
     }
+    glm_vec3_zero(obj->pos);
+    glm_mat4_identity(obj->model);
+    glCreateBuffers(1, &obj->vbo);
+    glNamedBufferData(obj->vbo, obj->numTriangles * sizeof(Triangle_t), obj->triangles, GL_STATIC_DRAW);
     return obj;
 }

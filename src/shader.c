@@ -26,7 +26,7 @@ GLuint gm_createShaderProgram(size_t shaderCount, ...)
 	GLuint shaderProgram = glCreateProgram();
 	va_list args;
 	va_start(args, shaderCount);
-	for (int i = 0; i < shaderCount; i++)
+	for (GLuint i = 0; i < shaderCount; i++)
 	{
 		GLuint currentShader = va_arg(args, GLuint);
 		glAttachShader(shaderProgram, currentShader);

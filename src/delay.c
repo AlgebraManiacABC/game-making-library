@@ -3,7 +3,7 @@
 
 float gm_fps = 60.0f;
 
-void gm_msDelay(float ms)
+void gm_msDelay(Uint32 ms)
 {
 	SDL_Delay(ms);
 }
@@ -17,12 +17,12 @@ Uint64 gm_msAtEndOfFrame;
 
 void gm_beginFrame()
 {
-	gm_msAtEndOfFrame = SDL_GetTicks64() + (1000.0 / gm_fps);
+	gm_msAtEndOfFrame = (Uint64)(SDL_GetTicks64() + (1000.0f / gm_fps));
 }
 
 void gm_endFrame()
 {
-	long remaining_ms = gm_msAtEndOfFrame - SDL_GetTicks64();
+	long remaining_ms = (long)(gm_msAtEndOfFrame - SDL_GetTicks64());
 	if (remaining_ms <= 10) return;
 	SDL_Delay(remaining_ms);
 }

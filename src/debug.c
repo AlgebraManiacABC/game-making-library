@@ -72,6 +72,15 @@ void print1dFloatArrayAsTable(float *arr, size_t rows, size_t cols)
 	}
 }
 
+void gm_checkAndPrintError()
+{
+	GLenum err = glGetError();
+	if (err != GL_NO_ERROR)
+	{
+		fprintf(stderr,"OpenGL Error: %s\n", glewGetErrorString(err));
+	}
+}
+
 void GLAPIENTRY
 MessageCallback( GLenum source,
                  GLenum type,
@@ -81,7 +90,7 @@ MessageCallback( GLenum source,
                  const GLchar* message,
                  const void* userParam )
 {
-  fprintf( stderr, "%s type = 0x%x, severity = 0x%x, message:\n\t%s\n",
-           ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
+	fprintf( stderr, "%s type = 0x%x, severity = 0x%x, message:\n\t%s\n",
+           ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "** GL CALLBACK **" ),
             type, severity, message );
 }

@@ -88,9 +88,9 @@ void gm_renderDisplay()
 	SDL_GL_SwapWindow(gm_window);
 }
 
-void gm_renderClear(gm_Color color)
+void gm_renderClear(gm_Color_t color)
 {
-	static gm_Color clearColor = {};
+	static gm_Color_t clearColor = {};
 	if (!gm_ColorEquals(clearColor,color))
 	{
 		clearColor = color;

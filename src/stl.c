@@ -28,7 +28,7 @@ Object3D_t * gm_create3dObjectFromSTL(char * filename)
             obj->numTriangles);
         return NULL;
     }
-    obj->triangles = malloc((obj->numTriangles) * sizeof(Triangle_t));
+    obj->triangles = calloc(obj->numTriangles, sizeof(Triangle_t));
     if (!obj->triangles)
     {
         gm_setError(ERR_CODE,ERR_NOMEM);
@@ -63,7 +63,12 @@ Object3D_t * gm_create3dObjectFromSTL(char * filename)
         }
         // UINT16 – Attribute byte count
         Uint16 attr = *(Uint16*)(&stlFile.fileData[offset]);
-        offset += sizeof(Uint16) + attr; // Ignore attributes
+        offset += sizeof(Uint16) + attr;
+        // Ignore attributes for now.
+        // This is likely color or texture data, but I've not
+        //  seen an STL with these before, so I
+        //  will have TODO some research on STL attributes
+        // For now, I used calloc, so they can be left alone.
     }
     return obj;
 }

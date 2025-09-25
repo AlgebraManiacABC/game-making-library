@@ -33,6 +33,8 @@ int gm_initWindow(const char * winTitle,
 void gm_renderClear(gm_Color_t clearColor);
 void gm_renderDisplay();
 
+void gm_setWireframe(bool wireframe);
+
 /**
  * Closes the window and releases any GM memory
  *

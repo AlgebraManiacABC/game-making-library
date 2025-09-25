@@ -16,6 +16,7 @@ Expect this "documentation" to eventually find a new home
 * `gm_endFrame()` - Delays execution to align with the set FPS; gets time information from `gm_beginFrame()`
 * `gm_renderClear()` - Clears the screen with the specified `gm_Color`
 * `gm_renderDisplay()` - Swaps the buffers to present the next frame
+* `gm_setWireframe()` - Changes the rendering to wireframe mode or not
 * `gm_exit()` - Quits the application
 * `GM_ASPECTRATIO` - Quick and dirty Aspect Ratio
 

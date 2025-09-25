@@ -99,6 +99,14 @@ void gm_renderClear(gm_Color_t color)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void gm_setWireframe(bool wireframe)
+{
+	if (wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+}
+
 void gm_exit()
 {
 	if (gm_glContext)

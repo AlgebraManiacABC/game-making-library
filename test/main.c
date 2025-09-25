@@ -56,6 +56,8 @@ int main(int argc, char *argv[])
     vec3 teapotPos = {0.0, -1.5, 0.0};
     gm_setObjectPosition(teapot, teapotPos);
 
+	gm_setWireframe(true);
+
 	vec3 rotateRad = {0, (float)(M_PI / (double)gm_getFrameRate()), 0};
 	while(true)
 	{

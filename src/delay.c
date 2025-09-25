@@ -14,6 +14,10 @@ void gm_setFrameRate(float fps)
 }
 
 Uint64 gm_msAtEndOfFrame;
+float gm_getFrameRate()
+{
+	return gm_fps;
+}
 
 void gm_beginFrame()
 {

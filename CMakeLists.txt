@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.23)
 project(llgml VERSION 0.2.0
 	DESCRIPTION "A game-making library for OpenGL and C using SDL2 intended for simple games"
     LANGUAGES C)
-set(PRERELEASE "alpha.3")
+set(PRERELEASE "alpha.4")
 
 set(CMAKE_C_STANDARD 23)
 
@@ -46,7 +46,7 @@ find_package(SDL2 REQUIRED)
 find_package(GLEW CONFIG QUIET)
 find_package(OpenGL REQUIRED)
 find_library(M_LIB m)
-find_package(CGLM REQUIRED)
+find_package(cglm REQUIRED)
 
 if(NOT glew_FOUND)
 	find_package(GLEW REQUIRED)  # Module finder

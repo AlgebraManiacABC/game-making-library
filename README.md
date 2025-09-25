@@ -1,5 +1,7 @@
 # Low-Level Game-Making Library (LLGML)
 
+![teapot](test/teapot.gif)
+
 ## Description
 This project was made as an effort to simplify the complexity of OpenGL's various features and act as a sort of wrapper for them. Many repetitive tasks are wrapped, such as window creation, rendering, etc.
 

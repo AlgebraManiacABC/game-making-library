@@ -4,3 +4,6 @@ lib*
 *vscode*
 *.vs*
 .idea/
+.megaignore
+desktop.ini
+Rubbish/

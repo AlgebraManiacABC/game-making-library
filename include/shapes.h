@@ -3,7 +3,7 @@
 
 #include <GL/glew.h>
 
-static const GLdouble phi = 1.6180339887498948482;
+#define GM_PHI (1.6180339887498948482)
 
 //0: -1, 1, 0
 //1: 1, 1, 0
@@ -69,20 +69,20 @@ GLfloat cube_vertices[] = {
 GLfloat icosahedron_vertices[] =
 {
 	// Z == 0
-	 phi,  1.0,  0.0, //  0
-	 phi, -1.0,  0.0, //  1
-	-phi, -1.0,  0.0, //  2
-	-phi,  1.0,  0.0, //  3
+	 GM_PHI,  1.0,  0.0, //  0
+	 GM_PHI, -1.0,  0.0, //  1
+	-GM_PHI, -1.0,  0.0, //  2
+	-GM_PHI,  1.0,  0.0, //  3
 	// Y == 0
-	 1.0,  0.0,  phi, //  4
-	-1.0,  0.0,  phi, //  5
-	-1.0,  0.0, -phi, //  6
-	 1.0,  0.0, -phi, //  7
+	 1.0,  0.0,  GM_PHI, //  4
+	-1.0,  0.0,  GM_PHI, //  5
+	-1.0,  0.0, -GM_PHI, //  6
+	 1.0,  0.0, -GM_PHI, //  7
 	 // X == 0
-	  0.0,  phi,  1.0, //  8
-	  0.0,  phi, -1.0, //  9
-	  0.0, -phi, -1.0, // 10
-	  0.0, -phi,  1.0, // 11
+	  0.0,  GM_PHI,  1.0, //  8
+	  0.0,  GM_PHI, -1.0, //  9
+	  0.0, -GM_PHI, -1.0, // 10
+	  0.0, -GM_PHI,  1.0, // 11
 };
 
 GLuint icosahedron_indices[] =

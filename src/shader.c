@@ -29,6 +29,11 @@ GLuint gm_createShaderProgram(size_t shaderCount, ...)
 	for (GLuint i = 0; i < shaderCount; i++)
 	{
 		GLuint currentShader = va_arg(args, GLuint);
+		if (!currentShader || !glIsShader(currentShader))
+		{
+			gm_setError(ERR_MESG, "Failure creating shader (ID %d)! OpenGL says: %s", currentShader, glGetError());
+			return 0;
+		}
 		glAttachShader(shaderProgram, currentShader);
 	}
 	glLinkProgram(shaderProgram);

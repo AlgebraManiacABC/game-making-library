@@ -7,7 +7,7 @@
 #include "files.h"
 #include "internal/object_3d.h"
 
-#define SIZEOF_STL_TRIANGLE (14)
+#define SIZEOF_STL_TRIANGLE_WITHOUT_ATTR (50)
 
 Object3D_t * gm_create3dObjectFromSTL(char * filename)
 {
@@ -21,23 +21,23 @@ Object3D_t * gm_create3dObjectFromSTL(char * filename)
     if (stlFile.fileLength <= 0) return NULL;
     // Header is 80 bytes, triangle count immediately after as Uint32
     obj->numTriangles = *(Uint32*)(&stlFile.fileData[80]);
-    if (obj->numTriangles * SIZEOF_STL_TRIANGLE + 84 > stlFile.fileLength)
+    if (obj->numTriangles * SIZEOF_STL_TRIANGLE_WITHOUT_ATTR + 84 > stlFile.fileLength)
     {
-        gm_setError(ERR_MESG, "STL File size (%lh) inconsistent with triangle count (%lh)!",
+        gm_setError(ERR_MESG, "STL File size (%lu) inconsistent with triangle count (%lu)!",
             stlFile.fileLength,
             obj->numTriangles);
         return NULL;
     }
-    obj->triangles = malloc((obj->numTriangles) * sizeof(Triangle_t));
+    obj->triangles = calloc(obj->numTriangles, sizeof(Triangle_t));
     if (!obj->triangles)
     {
         gm_setError(ERR_CODE,ERR_NOMEM);
         return NULL;
     }
+    size_t offset = 84;
     for (Uint32 i = 0; i < obj->numTriangles; i++)
     {
         // https://docs.fileformat.com/cad/stl/
-        size_t offset = 84 + (i * SIZEOF_STL_TRIANGLE);
         // REAL32[3] – Normal vector
         GLfloat norm[3] = {
             *(GLfloat*)(&stlFile.fileData[offset]),
@@ -63,7 +63,16 @@ Object3D_t * gm_create3dObjectFromSTL(char * filename)
         }
         // UINT16 – Attribute byte count
         Uint16 attr = *(Uint16*)(&stlFile.fileData[offset]);
-        offset += sizeof(Uint16) + attr; // Ignore attributes
+        offset += sizeof(Uint16) + attr;
+        // Ignore attributes for now.
+        // This is likely color or texture data, but I've not
+        //  seen an STL with these before, so I
+        //  will have TODO some research on STL attributes
+        // For now, I used calloc, so they can be left alone.
     }
+    glm_vec3_zero(obj->pos);
+    glm_mat4_identity(obj->model);
+    glCreateBuffers(1, &obj->vbo);
+    glNamedBufferData(obj->vbo, obj->numTriangles * sizeof(Triangle_t), obj->triangles, GL_STATIC_DRAW);
     return obj;
 }

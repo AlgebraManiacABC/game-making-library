@@ -30,7 +30,7 @@ NODISCARD
 int gm_initWindow(const char * winTitle,
 				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h, Uint32 min_win_w, Uint32 min_win_h);
 
-void gm_renderClear(gm_Color clearColor);
+void gm_renderClear(gm_Color_t clearColor);
 void gm_renderDisplay();
 
 /**

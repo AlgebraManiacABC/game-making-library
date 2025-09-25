@@ -9,7 +9,7 @@
 
 char* _gm_readEntireTextFile(const char* filename)
 {
-    FILE* file = fopen(filename, "r");
+    FILE* file = fopen(filename, "rb");
     if (!file)
     {
         gm_setError(ERR_CODE, ERR_NOFIL);
@@ -31,7 +31,7 @@ char* _gm_readEntireTextFile(const char* filename)
     size_t items = fread(fileContents, 1, fileLength, file);
     if (items != fileLength)
     {
-        gm_setError(ERR_MESG, "Error reading file!");
+        gm_setError(ERR_MESG, "Error reading \"%s\"!", filename);
         fclose(file);
         free(fileContents);
         return NULL;
@@ -67,7 +67,7 @@ BinaryFile_t _gm_readEntireBinaryFile(const char* filename)
     size_t items = fread(fileContents, 1, fileLength, file);
     if (items != fileLength)
     {
-        gm_setError(ERR_MESG, "Error reading file!");
+        gm_setError(ERR_MESG, "Error reading \"%s\"!", filename);
         fclose(file);
         free(fileContents);
         return binaryFile;

@@ -33,7 +33,13 @@ void gm_setError(errType type, ...)
 		free(errorString);
 		errorString = NULL;
 	}
-	vasprintf(&errorString,fmt,args);
+	int bytes = vasprintf(&errorString,fmt,args);
+	if (bytes < 0)
+	{
+		errorString = NULL;
+		lastError = ERR_CODE;
+		lastErrorCode = ERR_UNDEF;
+	}
 	va_end(args);
 	lastError = ERR_MESG;
 }

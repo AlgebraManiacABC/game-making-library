@@ -28,7 +28,14 @@ char* _gm_readEntireTextFile(const char* filename)
         return NULL;
     }
 
-    fread(fileContents, 1, fileLength, file);
+    size_t items = fread(fileContents, 1, fileLength, file);
+    if (items != fileLength)
+    {
+        gm_setError(ERR_MESG, "Error reading file!");
+        fclose(file);
+        free(fileContents);
+        return NULL;
+    }
     fileContents[fileLength] = '\0';
     fclose(file);
 
@@ -57,7 +64,14 @@ BinaryFile_t _gm_readEntireBinaryFile(const char* filename)
         return binaryFile;
     }
 
-    fread(fileContents, 1, fileLength, file);
+    size_t items = fread(fileContents, 1, fileLength, file);
+    if (items != fileLength)
+    {
+        gm_setError(ERR_MESG, "Error reading file!");
+        fclose(file);
+        free(fileContents);
+        return binaryFile;
+    }
     fileContents[fileLength] = '\0';
     fclose(file);
 

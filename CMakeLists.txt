@@ -46,6 +46,7 @@ find_package(SDL2 REQUIRED)
 find_package(GLEW CONFIG QUIET)
 find_package(OpenGL REQUIRED)
 find_library(M_LIB m)
+find_package(CGLM REQUIRED)
 
 if(NOT glew_FOUND)
 	find_package(GLEW REQUIRED)  # Module finder
@@ -94,8 +95,8 @@ if (WIN32)
 	target_link_libraries(llgml_test PRIVATE SDL2::SDL2main)
 endif()
 
-target_link_libraries(llgml PRIVATE	SDL2::SDL2 ${GLEW_LINK} OpenGL::GL)
-target_link_libraries(llgml_test PRIVATE SDL2::SDL2 ${GLEW_LINK} OpenGL::GL llgml)
+target_link_libraries(llgml PRIVATE	SDL2::SDL2 ${GLEW_LINK} OpenGL::GL cglm::cglm)
+target_link_libraries(llgml_test PRIVATE SDL2::SDL2 ${GLEW_LINK} OpenGL::GL cglm::cglm llgml)
 
 # Install
 include(GNUInstallDirs)

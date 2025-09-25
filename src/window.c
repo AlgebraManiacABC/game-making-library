@@ -1,5 +1,12 @@
+#if defined(_MSC_VER) && !defined(__clang__)
+	#pragma warning(push)
+	#pragma warning(disable: 4244 4018 4267) /* typical stb warnings */
+#endif
 #define STB_IMAGE_IMPLEMENTATION
 #include "internal/stb_image.h"
+#if defined(_MSC_VER) && !defined(__clang__)
+	#pragma warning(pop)
+#endif
 #include "window.h"
 
 SDL_Window *gm_window;
@@ -73,7 +80,7 @@ void gm_renderDisplay()
 
 void gm_renderClear(gm_Color color)
 {
-	static gm_Color clearColor = GM_COLOR_BLACK;
+	static gm_Color clearColor = {};
 	if (!gm_ColorEquals(clearColor,color))
 	{
 		clearColor = color;

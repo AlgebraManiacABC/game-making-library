@@ -73,6 +73,8 @@ const char * gm_getError(void);
 
 void print1dFloatArrayAsTable(float *arr, size_t rows, size_t cols);
 
+void gm_checkAndPrintError();
+
 void GLAPIENTRY
 MessageCallback( GLenum source,
                  GLenum type,

@@ -7,6 +7,7 @@ void gm_msDelay(Uint32);
 // Do note: These currently work for "Maximum" framerates.
 // They implement SDL_Delay, which is inherently flawed (as are most FPS-limiters).
 void gm_setFrameRate(float);
+float gm_getFrameRate();
 void gm_beginFrame();
 void gm_endFrame();
 

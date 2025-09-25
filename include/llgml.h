@@ -4,4 +4,5 @@
 #include "delay.h"
 #include "object_3d.h"
 #include "stl.h"
+#include "camera.h"
 #include "shapes.h"

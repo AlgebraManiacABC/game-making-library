@@ -41,6 +41,8 @@ int gm_initWindow(const char * winTitle,
 		SDL_Quit();
 		return EXIT_FAILURE;
 	}
+	gm_windowWidth = win_w;
+	gm_windowHeight = win_h;
 
 	SDL_SetWindowMinimumSize(gm_window, min_win_w, min_win_h);
 

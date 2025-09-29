@@ -1,15 +1,38 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
-#include <SDL2/SDL_types.h>
 #include "debug.h"
 
 #define GM_QUIT (1)
 
-extern Uint64 gm_heldKeys;
-extern Uint64 gm_releasedKeys;
-
 extern Uint32 gm_mouseState;
+
+/**
+ * Registers the given scancode with llgml for watching.
+ * Can query state with `gm_buttonQuery`
+ *
+ * @param scancode the SDL_Scancode to track
+ * @return a unique identifier for the scancode in llgml. Will be negative on fail.
+ */
+int gm_registerScancode(int scancode);
+
+typedef enum gm_ButtonQueryType_e
+{
+    BUTTON_QUERY_HELD = 0b001,
+    BUTTON_QUERY_JUST_PRESSED = 0b010,
+    BUTTON_QUERY_JUST_RELEASED = 0b100,
+    // TODO: timed repeat
+
+}   gm_ButtonQueryType_t;
+
+/**
+ * Checks and returns the specific state of the given button key
+ *
+ * @param id the id of the button to query
+ * @param type how the button should be queried (`gm_ButtonQueryType_t`)
+ * @return the current button state of that query type
+ */
+int gm_buttonQuery(GLuint id, gm_ButtonQueryType_t type);
 
 /**
  * Reads any current events, and handles them.

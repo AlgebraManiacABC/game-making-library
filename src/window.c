@@ -9,6 +9,7 @@
 #endif
 #include "window.h"
 #include "internal/object_3d.h"
+#include "internal/events.h"
 
 SDL_Window *gm_window;
 SDL_GLContext *gm_glContext;
@@ -72,6 +73,9 @@ int gm_initWindow(const char * winTitle,
 	gm_initializeVAO();
 	glEnable(GL_DEPTH_TEST);
 
+	err = gm_initializeInputStateArray();
+	if (err) return EXIT_FAILURE;
+
 	//SDL_SetRelativeMouseMode(SDL_TRUE);
 	//SDL_WarpMouseInWindow(gm_window,win_w/2,win_h/2);
 
@@ -105,6 +109,7 @@ void gm_setWireframe(bool wireframe)
 void gm_exit()
 {
     gm_destroyAllObjects();
+	gm_destroyEventData();
 
 	// Finally, destroy the window inside out
 	if (gm_glContext)

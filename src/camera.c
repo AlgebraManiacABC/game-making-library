@@ -11,6 +11,7 @@ struct gm_Camera_s
 {
     vec3 pos;
     versor rot; // quaternion
+    vec3 up;
     float fov; // if 0, orthographic
     mat4 view;
     mat4 proj;
@@ -52,6 +53,8 @@ int gm_cameraInit(gm_CameraInitFlags flags, ...)
 
     glm_vec3_copy(startPos, gm_Camera->pos);
     glm_quat_copy(startRot, gm_Camera->rot);
+    float *up = (vec3){0, 1, 0};
+    glm_vec3_make(up, gm_Camera->up);
     gm_Camera->fov = startFOV;
     glm_quat_look(gm_Camera->pos, gm_Camera->rot, gm_Camera->view);
     glm_perspective(startFOV, GM_ASPECTRATIO, 0.1f, 100.0f, gm_Camera->proj);

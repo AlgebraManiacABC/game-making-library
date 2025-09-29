@@ -57,6 +57,24 @@ int main(int argc, char *argv[])
     gm_setObjectPosition(teapot, teapotPos);
 
 	float modelRotate = M_PI / (double)gm_getFrameRate();
+
+	struct keys_s
+	{
+		int w, a, s, d;
+		int shift, space;
+	};
+
+	// Register buttons
+	struct keys_s keys =
+	{
+		gm_registerScancode(SDL_SCANCODE_W),
+		gm_registerScancode(SDL_SCANCODE_A),
+		gm_registerScancode(SDL_SCANCODE_S),
+		gm_registerScancode(SDL_SCANCODE_D),
+		gm_registerScancode(SDL_SCANCODE_LSHIFT),
+		gm_registerScancode(SDL_SCANCODE_SPACE),
+	};
+
 	gm_rotateCameraY(M_PI/2);
 
 	while(true)
@@ -70,6 +88,15 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "%s\n", gm_getError());
 			return EXIT_FAILURE;
 		}
+
+		if (gm_buttonQuery(keys.w, GM_BUTTONSTATE_HELD))
+			gm_moveCameraForward(deltaTime);
+		if (gm_buttonQuery(keys.s, GM_BUTTONSTATE_HELD))
+			gm_moveCameraBack(deltaTime);
+		if (gm_buttonQuery(keys.a, GM_BUTTONSTATE_HELD))
+			gm_moveCameraLeft(deltaTime);
+		if (gm_buttonQuery(keys.d, GM_BUTTONSTATE_HELD))
+			gm_moveCameraRight(deltaTime);
 
 		gm_updateCameraMatrices(shaderProg);
 

@@ -40,6 +40,15 @@ void gm_destroyList(gm_List_t * list);
 int gm_insertNodeAtHead(gm_List_t * list, void * data);
 
 /**
+ * Inserts a node at the end of the list,
+ *  filling it with the specified data
+ * @param list the list to change
+ * @param data the data insert
+ * @return EXIT_SUCCESS or EXIT_FAILURE
+ */
+int gm_insertNodeAtTail(gm_List_t * list, void * data);
+
+/**
  * Gets the data from the node at the given index
  * @param list the list from which to get data
  * @param index the index of the data node

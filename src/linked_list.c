@@ -88,6 +88,33 @@ int gm_insertNodeAtHead(gm_List_t * list, void * data)
     return EXIT_SUCCESS;
 }
 
+int gm_insertNodeAtTail(gm_List_t * list, void * data)
+{
+    if (!list)
+    {
+        gm_setError(ERR_CODE,ERR_NULLP);
+        return EXIT_FAILURE;
+    }
+    gm_Node_t * node = gm_createNode(data);
+    if (!node) return EXIT_FAILURE;
+    if (!list->head)
+    {
+        list->head = node;
+        node->next = node;
+        node->prev = node;
+    }
+    else
+    {
+        gm_Node_t * penultimate = list->head->prev;
+        penultimate->next = node;
+        node->prev = penultimate;
+        node->next = list->head;
+        list->head->prev = node;
+    }
+    list->length++;
+    return EXIT_SUCCESS;
+}
+
 // void * gm_getNodeAtIndex(gm_List_t * list, size_t index);
 
 // void * gm_getNodeAtHead(gm_List_t * list);
@@ -112,7 +139,26 @@ void * gm_removeNodeAtHead(gm_List_t * list)
 
 // void * gm_removeNodeAtTail(gm_List_t * list);
 
-// int gm_removeNodeMatchingData(gm_List_t * list, void * data);
+int gm_removeNodeMatchingData(gm_List_t * list, void * data)
+{
+    if (!list || !list->length) return EXIT_FAILURE;
+    gm_Node_t * search = list->head;
+    for (int i=0; i<list->length; i++)
+    {
+        if (search->data == data)
+        {
+            search->prev->next = search->next;
+            search->next->prev = search->prev;
+            if (search == list->head) list->head = search->next;
+            list->length--;
+            free(search);
+            if (list->length == 0) list->head = NULL;
+            return EXIT_SUCCESS;
+        }
+        search = search->next;
+    }
+    return EXIT_FAILURE;
+}
 
 // void gm_pushObject(gm_List_t * list, void * data);
 

@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
 	{
 		int w, a, s, d;
 		int shift, space;
+		int up, down, left, right;
 	};
 
 	// Register buttons
@@ -73,9 +74,11 @@ int main(int argc, char *argv[])
 		gm_registerScancode(SDL_SCANCODE_D),
 		gm_registerScancode(SDL_SCANCODE_LSHIFT),
 		gm_registerScancode(SDL_SCANCODE_SPACE),
+		gm_registerScancode(SDL_SCANCODE_UP),
+		gm_registerScancode(SDL_SCANCODE_DOWN),
+		gm_registerScancode(SDL_SCANCODE_LEFT),
+		gm_registerScancode(SDL_SCANCODE_RIGHT),
 	};
-
-	gm_rotateCameraY(M_PI/2);
 
 	while(true)
 	{
@@ -101,6 +104,14 @@ int main(int argc, char *argv[])
 			gm_moveCameraUp(deltaTime);
 		if (gm_buttonQuery(keys.shift, GM_BUTTONSTATE_HELD))
 			gm_moveCameraDown(deltaTime);
+		if (gm_buttonQuery(keys.up, GM_BUTTONSTATE_HELD))
+			gm_rotateCameraX(-deltaTime);
+		if (gm_buttonQuery(keys.down, GM_BUTTONSTATE_HELD))
+			gm_rotateCameraX(deltaTime);
+		if (gm_buttonQuery(keys.left, GM_BUTTONSTATE_HELD))
+			gm_rotateCameraY(-deltaTime);
+		if (gm_buttonQuery(keys.right, GM_BUTTONSTATE_HELD))
+			gm_rotateCameraY(deltaTime);
 
 		gm_updateCameraMatrices(shaderProg);
 

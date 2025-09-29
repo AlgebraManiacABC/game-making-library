@@ -1,6 +1,10 @@
 #ifndef DELAY_H
 #define DELAY_H
 
+/**
+ * The time the last frame took in seconds
+ */
+extern float deltaTime;
 void gm_msDelay(Uint32);
 
 // Framerate functions.

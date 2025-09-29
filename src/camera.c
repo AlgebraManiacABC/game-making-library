@@ -56,7 +56,9 @@ int gm_cameraInit(gm_CameraInitFlags flags, ...)
     float *up = (vec3){0, 1, 0};
     glm_vec3_make(up, gm_Camera->up);
     gm_Camera->fov = startFOV;
-    glm_quat_look(gm_Camera->pos, gm_Camera->rot, gm_Camera->view);
+    glm_mat4_identity(gm_Camera->view);
+    gm_setCameraRotation(startRot);
+    gm_setCameraPos(startPos);
     glm_perspective(startFOV, GM_ASPECTRATIO, 0.1f, 100.0f, gm_Camera->proj);
 
     return EXIT_SUCCESS;
@@ -84,6 +86,11 @@ void gm_rotateCamera(vec3 byAngles)
     glm_mat4_mul(rot, gm_Camera->view, gm_Camera->view);
 }
 
+void gm_setCameraRotation(versor newRotation)
+{
+    glm_quat_look(gm_Camera->pos, newRotation, gm_Camera->view);
+    glm_mat4_quat(gm_Camera->view, gm_Camera->rot);
+}
 
 void gm_updateCameraMatrices(const GLuint shaderProg)
 {

@@ -39,6 +39,8 @@ int gm_cameraInit(gm_CameraInitFlags, ...);
 
 void gm_setCameraPos(vec3 newPos);
 
+void gm_setCameraRotation(versor newRotation);
+
 void gm_cameraLookAt(vec3 target, vec3 up);
 
 void gm_rotateCamera(vec3 byAngles);

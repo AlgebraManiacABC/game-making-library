@@ -1,4 +1,5 @@
 #include "events.h"
+#include "internal/events.h"
 #include "window.h"
 #include "debug.h"
 
@@ -38,6 +39,65 @@ int gm_registerScancode(int scancode)
     return scancode;
 }
 
+int gm_getRegisteredIndex(int scancode)
+{
+    int index = -1;
+    for (int i = 0; i < gm_registeredCount; i++)
+    {
+        if (scancode == gm_registeredButtons[i]) return i;
+    }
+    return index;
+}
+
+int gm_getStateIfRegistered(int scancode)
+{
+    int index = gm_getRegisteredIndex(scancode);
+    if (index < 0) return index;
+    return gm_inputStateArray[gm_registeredButtons[index]];
+}
+
+void gm_updateStateIfRegistered(int scancode, gm_ButtonEventType_t event)
+{
+    int index = gm_getRegisteredIndex(scancode);
+    if (index < 0) return;
+    Uint8 curState = gm_inputStateArray[gm_registeredButtons[index]];
+    Uint8 newState = 0;
+    switch (event)
+    {
+        case GM_BUTTONEVENT_NONE:
+            if (BITFIELD_CHECK(curState, GM_BUTTONSTATE_JUST_PRESSED))
+                BITFIELD_CLEAR(newState, GM_BUTTONSTATE_JUST_PRESSED);
+            if (BITFIELD_CHECK(curState, GM_BUTTONSTATE_JUST_RELEASED))
+                BITFIELD_CLEAR(newState, GM_BUTTONSTATE_JUST_RELEASED);
+            break;
+        case GM_BUTTONEVENT_DOWN:
+            BITFIELD_SET(newState, GM_BUTTONSTATE_JUST_PRESSED);
+            BITFIELD_SET(newState, GM_BUTTONSTATE_HELD);
+            BITFIELD_CLEAR(newState, GM_BUTTONSTATE_JUST_RELEASED);
+            break;
+        case GM_BUTTONEVENT_UP:
+            BITFIELD_CLEAR(newState, GM_BUTTONSTATE_JUST_PRESSED);
+            BITFIELD_CLEAR(newState, GM_BUTTONSTATE_HELD);
+            BITFIELD_SET(newState, GM_BUTTONSTATE_JUST_RELEASED);
+            break;
+    }
+}
+
+void gm_updateHeldStates()
+{
+    const Uint8 * states = SDL_GetKeyboardState(NULL);
+    for (int i = 0; i < gm_registeredCount; i++)
+    {
+        int code = gm_registeredButtons[i];
+        Uint8 curState = gm_inputStateArray[code];
+        if (states[code])
+            BITFIELD_SET(curState, GM_BUTTONSTATE_HELD);
+        else
+            BITFIELD_CLEAR(curState, GM_BUTTONSTATE_HELD);
+        gm_inputStateArray[code] = curState;
+    }
+}
+
 void gm_destroyEventData()
 {
     if (gm_inputStateArray) free(gm_inputStateArray);
@@ -70,11 +130,18 @@ int gm_handleEvents()
 					glViewport(0,0,gm_windowWidth,gm_windowHeight);
 				}
 				break;
+		    case SDL_KEYDOWN:
+		        gm_updateStateIfRegistered(event.key.keysym.scancode, GM_BUTTONEVENT_DOWN);
+		        break;
+		    case SDL_KEYUP:
+		        gm_updateStateIfRegistered(event.key.keysym.scancode, GM_BUTTONEVENT_UP);
+		        break;
 			case SDL_QUIT:
 				return GM_QUIT;
 			default:
 				break;
 		}
 	}
+    gm_updateHeldStates();
 	return EXIT_SUCCESS;
 }

@@ -18,9 +18,9 @@ int gm_registerScancode(int scancode);
 
 typedef enum gm_ButtonQueryType_e
 {
-    BUTTON_QUERY_HELD = 0b001,
-    BUTTON_QUERY_JUST_PRESSED = 0b010,
-    BUTTON_QUERY_JUST_RELEASED = 0b100,
+    GM_BUTTONSTATE_HELD = 0b001,
+    GM_BUTTONSTATE_JUST_PRESSED = 0b010,
+    GM_BUTTONSTATE_JUST_RELEASED = 0b100,
     // TODO: timed repeat
 
 }   gm_ButtonQueryType_t;

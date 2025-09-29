@@ -92,6 +92,30 @@ void gm_setCameraRotation(versor newRotation)
     glm_mat4_quat(gm_Camera->view, gm_Camera->rot);
 }
 
+void gm_rotateCameraX(float radians)
+{
+    mat4 rot = GLM_MAT4_IDENTITY_INIT;
+    glm_rotate_x(rot, radians, rot);
+    glm_mat4_mul(rot, gm_Camera->view, gm_Camera->view);
+    glm_mat4_quat(gm_Camera->view, gm_Camera->rot);
+}
+
+void gm_rotateCameraY(float radians)
+{
+    mat4 rot = GLM_MAT4_IDENTITY_INIT;
+    glm_rotate_y(rot, radians, rot);
+    glm_mat4_mul(rot, gm_Camera->view, gm_Camera->view);
+    glm_mat4_quat(gm_Camera->view, gm_Camera->rot);
+}
+
+void gm_rotateCameraZ(float radians)
+{
+    mat4 rot = GLM_MAT4_IDENTITY_INIT;
+    glm_rotate_z(rot, radians, rot);
+    glm_mat4_mul(rot, gm_Camera->view, gm_Camera->view);
+    glm_mat4_quat(gm_Camera->view, gm_Camera->rot);
+}
+
 void gm_updateCameraMatrices(const GLuint shaderProg)
 {
     const GLint viewLoc = glGetUniformLocation(shaderProg, "view");

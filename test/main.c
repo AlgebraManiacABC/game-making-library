@@ -57,6 +57,8 @@ int main(int argc, char *argv[])
     gm_setObjectPosition(teapot, teapotPos);
 
 	float modelRotate = M_PI / (double)gm_getFrameRate();
+	gm_rotateCameraY(M_PI/2);
+
 	while(true)
 	{
 		gm_beginFrame();

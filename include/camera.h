@@ -44,6 +44,9 @@ void gm_setCameraRotation(versor newRotation);
 void gm_cameraLookAt(vec3 target, vec3 up);
 
 void gm_rotateCamera(vec3 byAngles);
+void gm_rotateCameraX(float radians);
+void gm_rotateCameraY(float radians);
+void gm_rotateCameraZ(float radians);
 
 void gm_updateCameraMatrices(const GLuint shaderProg);
 

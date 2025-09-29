@@ -27,18 +27,25 @@ void gm_initializeVAO()
     glBindVertexArray(VAO);
 }
 
-Object3D_t * gm_create3dObjectFromTriangles(Triangle_t * triangles, int numTriangles)
+static Object3D_t * gm_create3dObjectBase()
 {
-    Object3D_t * obj = malloc(sizeof(Object3D_t));
+    Object3D_t * obj = calloc(1,sizeof(Object3D_t));
     if (!obj)
     {
         gm_setError(ERR_CODE, ERR_NOMEM);
         return NULL;
     }
-    obj->triangles = triangles;
-    obj->numTriangles = numTriangles;
     glm_mat4_identity(obj->model);
     glCreateBuffers(1, &obj->vbo);
+    gm_addObjectToStore(obj);
+    return obj;
+}
+
+Object3D_t * gm_create3dObjectFromTriangles(Triangle_t * triangles, int numTriangles)
+{
+    Object3D_t * obj = gm_create3dObjectBase();
+    obj->triangles = triangles;
+    obj->numTriangles = numTriangles;
     glNamedBufferData(obj->vbo, (GLsizeiptr)obj->numTriangles * sizeof(Triangle_t), obj->triangles, GL_STATIC_DRAW);
     return obj;
 }
@@ -62,12 +69,7 @@ Object3D_t * gm_create3dObjectFromVerticesAndIndices(GLfloat * vertices, size_t 
         return NULL;
     }
 
-    Object3D_t * obj = malloc(sizeof(Object3D_t));
-    if (!obj)
-    {
-        gm_setError(ERR_CODE, ERR_NOMEM);
-        return NULL;
-    }
+    Object3D_t * obj = gm_create3dObjectBase();
     obj->numTriangles = numIndices / 3;
     obj->triangles = calloc(obj->numTriangles, sizeof(Triangle_t));
     if (!obj->triangles)
@@ -120,8 +122,6 @@ Object3D_t * gm_create3dObjectFromVerticesAndIndices(GLfloat * vertices, size_t 
             }
         }
     }
-    glm_mat4_identity(obj->model);
-    glCreateBuffers(1, &obj->vbo);
     glNamedBufferData(obj->vbo, (GLsizeiptr)obj->numTriangles * sizeof(Triangle_t), obj->triangles, GL_STATIC_DRAW);
     return obj;
 }

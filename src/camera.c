@@ -72,6 +72,82 @@ void gm_setCameraPos(vec3 newPos)
     glm_translate(gm_Camera->view, diff);
 }
 
+void gm_moveCamera(vec3 deltaPos)
+{
+    glm_vec3_inv(deltaPos);
+    glm_translate(gm_Camera->view, deltaPos);
+    glm_vec3_add(gm_Camera->pos, deltaPos, gm_Camera->pos);
+}
+
+void gm_moveCameraX(float dist)
+{
+    glm_translate_x(gm_Camera->view, -dist);
+    gm_Camera->pos[0] += dist;
+}
+
+void gm_moveCameraY(float dist)
+{
+    glm_translate_y(gm_Camera->view, -dist);
+    gm_Camera->pos[1] += dist;
+}
+
+void gm_moveCameraZ(float dist)
+{
+    glm_translate_z(gm_Camera->view, -dist);
+    gm_Camera->pos[2] += dist;
+}
+
+void gm_vec3_mul_scalar(vec3 v, float scalar)
+{
+    v[0] *= scalar;
+    v[1] *= scalar;
+    v[2] *= scalar;
+}
+
+void gm_moveCameraLeft(float dist)
+{
+    vec3 left = {-1, 0, 0};
+    versor rot;
+    glm_quat_copy(gm_Camera->rot, rot);
+    glm_quat_inv(rot, rot);
+    glm_quat_rotatev(rot, left, left);
+    gm_vec3_mul_scalar(left, dist);
+    gm_moveCamera(left);
+}
+
+void gm_moveCameraRight(float dist)
+{
+    vec3 right = {1, 0, 0};
+    versor rot;
+    glm_quat_copy(gm_Camera->rot, rot);
+    glm_quat_inv(rot, rot);
+    glm_quat_rotatev(rot, right, right);
+    gm_vec3_mul_scalar(right, dist);
+    gm_moveCamera(right);
+}
+
+void gm_moveCameraForward(float dist)
+{
+    vec3 forward = {0, 0, -1};
+    versor rot;
+    glm_quat_copy(gm_Camera->rot, rot);
+    glm_quat_inv(rot, rot);
+    glm_quat_rotatev(rot, forward, forward);
+    gm_vec3_mul_scalar(forward, dist);
+    gm_moveCamera(forward);
+}
+
+void gm_moveCameraBack(float dist)
+{
+    vec3 back = {0, 0, 1};
+    versor rot;
+    glm_quat_copy(gm_Camera->rot, rot);
+    glm_quat_inv(rot, rot);
+    glm_quat_rotatev(rot, back, back);
+    gm_vec3_mul_scalar(back, dist);
+    gm_moveCamera(back);
+}
+
 void gm_cameraLookAt(vec3 target, vec3 up)
 {
     glm_lookat(gm_Camera->pos, target, up, gm_Camera->view);

@@ -38,6 +38,14 @@ NODISCARD
 int gm_cameraInit(gm_CameraInitFlags, ...);
 
 void gm_setCameraPos(vec3 newPos);
+void gm_moveCamera(vec3 deltaPos);
+void gm_moveCameraX(float dist);
+void gm_moveCameraY(float dist);
+void gm_moveCameraZ(float dist);
+void gm_moveCameraLeft(float dist);
+void gm_moveCameraRight(float dist);
+void gm_moveCameraForward(float dist);
+void gm_moveCameraBack(float dist);
 
 void gm_setCameraRotation(versor newRotation);
 

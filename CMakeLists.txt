@@ -5,7 +5,7 @@ project(llgml VERSION 0.2.2
     LANGUAGES C)
 #set(PRERELEASE "alpha.1")
 
-set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_STANDARD 17)
 
 # Low-Level Game-Making Library
 file(GLOB SOURCES CONFIGURE_DEPENDS src/*.c)

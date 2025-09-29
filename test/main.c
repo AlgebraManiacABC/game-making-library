@@ -97,6 +97,10 @@ int main(int argc, char *argv[])
 			gm_moveCameraLeft(deltaTime);
 		if (gm_buttonQuery(keys.d, GM_BUTTONSTATE_HELD))
 			gm_moveCameraRight(deltaTime);
+		if (gm_buttonQuery(keys.space, GM_BUTTONSTATE_HELD))
+			gm_moveCameraUp(deltaTime);
+		if (gm_buttonQuery(keys.shift, GM_BUTTONSTATE_HELD))
+			gm_moveCameraDown(deltaTime);
 
 		gm_updateCameraMatrices(shaderProg);
 

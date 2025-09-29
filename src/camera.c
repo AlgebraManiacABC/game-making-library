@@ -148,6 +148,28 @@ void gm_moveCameraBack(float dist)
     gm_moveCamera(back);
 }
 
+void gm_moveCameraUp(float dist)
+{
+    vec3 up = {0, 1, 0};
+    versor rot;
+    glm_quat_copy(gm_Camera->rot, rot);
+    glm_quat_inv(rot, rot);
+    glm_quat_rotatev(rot, up, up);
+    gm_vec3_mul_scalar(up, dist);
+    gm_moveCamera(up);
+}
+
+void gm_moveCameraDown(float dist)
+{
+    vec3 down = {0, -1, 0};
+    versor rot;
+    glm_quat_copy(gm_Camera->rot, rot);
+    glm_quat_inv(rot, rot);
+    glm_quat_rotatev(rot, down, down);
+    gm_vec3_mul_scalar(down, dist);
+    gm_moveCamera(down);
+}
+
 void gm_cameraLookAt(vec3 target, vec3 up)
 {
     glm_lookat(gm_Camera->pos, target, up, gm_Camera->view);

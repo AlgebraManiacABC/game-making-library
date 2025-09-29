@@ -46,6 +46,8 @@ void gm_moveCameraLeft(float dist);
 void gm_moveCameraRight(float dist);
 void gm_moveCameraForward(float dist);
 void gm_moveCameraBack(float dist);
+void gm_moveCameraUp(float dist);
+void gm_moveCameraDown(float dist);
 
 void gm_setCameraRotation(versor newRotation);
 

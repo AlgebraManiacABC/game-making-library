@@ -3,8 +3,8 @@
  * 
  ********************************************************************************/
 
-#ifndef LLGML_CAMERA_H
-#define LLGML_CAMERA_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #include <cglm/cglm.h>
 #include <stdarg.h>
@@ -47,4 +47,4 @@ void gm_updateMatrices(const GLuint shaderProg);
 
 void gm_printCameraMatrices();
 
-#endif //LLGML_CAMERA_H
+#endif

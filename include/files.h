@@ -3,8 +3,8 @@
  * 
  ********************************************************************************/
 
-#ifndef LLGML_FILES_H
-#define LLGML_FILES_H
+#ifndef FILES_H
+#define FILES_H
 
 #include <stdint.h>
 #include "debug.h"
@@ -37,4 +37,4 @@ char * _gm_readEntireTextFile(const char* filename);
 NODISCARD
 BinaryFile_t _gm_readEntireBinaryFile(const char* filename);
 
-#endif //LLGML_FILES_H
+#endif

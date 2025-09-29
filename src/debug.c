@@ -2,11 +2,11 @@
 
 const char * errorMessages[] =
 {
-	"Unknown error!",
-	"Couldn't open file!",
-	"Shader compilation failure!",
-	"Given pointer was NULL!",
-	"Not enough memory!"
+    /*ERR_UNDEF*/ "Unknown error!",
+    /*ERR_NOFIL*/ "Couldn't open file!",
+    /*ERR_SHADR*/ "Shader compilation failure!",
+    /*ERR_NULLP*/ "Given pointer was NULL!",
+    /*ERR_NOMEM*/ "Not enough memory!",
 };
 
 char * errorString = NULL;

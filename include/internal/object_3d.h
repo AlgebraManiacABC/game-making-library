@@ -3,8 +3,8 @@
  * 
  ********************************************************************************/
 
-#ifndef LLGML_OBJECT_3D_INTERNAL_H
-#define LLGML_OBJECT_3D_INTERNAL_H
+#ifndef INTERNAL_OBJECT_3D_H
+#define INTERNAL_OBJECT_3D_H
 
 #include <object_3d.h>
 #include <cglm/cglm.h>
@@ -35,4 +35,8 @@ extern GLuint VAO;
 
 void gm_initializeVAO();
 
-#endif //LLGML_OBJECT_3D_INTERNAL_H
+int gm_initializeObject3dList();
+
+void gm_destroyAllObjects();
+
+#endif

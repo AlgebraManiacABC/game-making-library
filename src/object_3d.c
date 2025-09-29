@@ -5,8 +5,28 @@
 
 #include "internal/object_3d.h"
 #include "files.h"
+#include "linked_list.h"
 
 GLuint VAO;
+
+static gm_List_t * gm_object3dList = NULL;
+
+int gm_initializeObject3dList()
+{
+    gm_object3dList = gm_createList();
+    if (!gm_object3dList) return EXIT_FAILURE;
+    return EXIT_SUCCESS;
+}
+
+static int gm_addObjectToStore(Object3D_t * obj)
+{
+    return gm_insertNodeAtTail(gm_object3dList, obj);
+}
+
+void gm_destroyAllObjects()
+{
+    gm_destroyList(gm_object3dList);
+}
 
 void gm_initializeVAO()
 {
@@ -177,4 +197,13 @@ void gm_renderObject(Object3D_t * obj, GLuint program)
     glUniformMatrix4fv(model, 1, GL_FALSE, (GLfloat*)obj->model);
     glVertexArrayVertexBuffer(VAO, 0, obj->vbo, 0, sizeof(Vertex_t));
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei)obj->numTriangles * 3);
+}
+
+int gm_destroyObject(Object3D_t * obj)
+{
+    if (!obj) return EXIT_FAILURE;
+    int err = gm_removeNodeMatchingData(gm_object3dList,obj);
+    if (err == EXIT_FAILURE) return err;
+    free(obj->triangles);
+    return EXIT_SUCCESS;
 }

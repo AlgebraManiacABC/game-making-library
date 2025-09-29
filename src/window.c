@@ -15,14 +15,6 @@ SDL_GLContext *gm_glContext;
 int gm_windowWidth;
 int gm_windowHeight;
 
-//	What functions needed?
-//
-//	* Wrap:
-//	 - SDL_Init
-//	 - SDL_CreateWindow
-//	 - SDL_GL_CreateContext
-//	 - glewInit
-
 int gm_initWindow(const char * winTitle,
 				Uint32 win_x, Uint32 win_y, Uint32 win_w, Uint32 win_h, Uint32 min_win_w, Uint32 min_win_h)
 {
@@ -74,6 +66,9 @@ int gm_initWindow(const char * winTitle,
 
 	stbi_set_flip_vertically_on_load(true);
 
+    err = gm_initializeObject3dList();
+    if (err) return EXIT_FAILURE;
+
 	gm_initializeVAO();
 	glEnable(GL_DEPTH_TEST);
 
@@ -109,6 +104,9 @@ void gm_setWireframe(bool wireframe)
 
 void gm_exit()
 {
+    gm_destroyAllObjects();
+
+	// Finally, destroy the window inside out
 	if (gm_glContext)
 	{
 		SDL_GL_DeleteContext(gm_glContext);

@@ -3,8 +3,8 @@
  * 
  ********************************************************************************/
 
-#ifndef LLGML_OBJECT_3D_H
-#define LLGML_OBJECT_3D_H
+#ifndef OBJECT_3D_H
+#define OBJECT_3D_H
 
 #include <cglm/ivec3.h>
 #include "debug.h"
@@ -36,4 +36,4 @@ void gm_rotateObject(Object3D_t * obj, vec3 by);
 
 void gm_renderObject(Object3D_t * obj, GLuint program);
 
-#endif //LLGML_OBJECT_3D_H
+#endif

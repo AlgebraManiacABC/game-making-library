@@ -43,7 +43,7 @@ void gm_cameraLookAt(vec3 target, vec3 up);
 
 void gm_rotateCamera(vec3 byAngles);
 
-void gm_updateMatrices(const GLuint shaderProg);
+void gm_updateCameraMatrices(const GLuint shaderProg);
 
 void gm_printCameraMatrices();
 

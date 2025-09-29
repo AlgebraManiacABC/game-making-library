@@ -84,7 +84,8 @@ void gm_rotateCamera(vec3 byAngles)
     glm_mat4_mul(rot, gm_Camera->view, gm_Camera->view);
 }
 
-void gm_updateMatrices(const GLuint shaderProg)
+
+void gm_updateCameraMatrices(const GLuint shaderProg)
 {
     const GLint viewLoc = glGetUniformLocation(shaderProg, "view");
     if (viewLoc < 0)
@@ -105,8 +106,8 @@ void gm_updateMatrices(const GLuint shaderProg)
 
 void gm_printCameraMatrices()
 {
-    printf("Position: ");
-    print1dFloatArrayAsTable(gm_Camera->pos, 1, 3);
+    // printf("Position: ");
+    // print1dFloatArrayAsTable(gm_Camera->pos, 1, 3);
     printf("View:\n");
     print1dFloatArrayAsTable((float*)gm_Camera->view, 4, 4);
     printf("Projection:\n");

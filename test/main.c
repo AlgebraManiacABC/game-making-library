@@ -69,9 +69,9 @@ int main(int argc, char *argv[])
 			return EXIT_FAILURE;
 		}
 
-		gm_renderClear(GM_COLOR_BLACK);
+		gm_updateCameraMatrices(shaderProg);
 
-		gm_updateMatrices(shaderProg);
+		gm_renderClear(GM_COLOR_BLACK);
 	    gm_setWireframe(true);
 		gm_renderObject(icosahedron,shaderProg);
 	    gm_setWireframe(false);

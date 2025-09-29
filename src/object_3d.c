@@ -189,6 +189,24 @@ void gm_rotateObject(Object3D_t * obj, vec3 by)
     glm_mat4_mul(rot, obj->model, obj->model);
 }
 
+void gm_rotateObjectX(Object3D_t * obj, float radians)
+{
+    if (!obj) return;
+    glm_rotate_x(obj->model, radians, obj->model);
+}
+
+void gm_rotateObjectY(Object3D_t * obj, float radians)
+{
+    if (!obj) return;
+    glm_rotate_y(obj->model, radians, obj->model);
+}
+
+void gm_rotateObjectZ(Object3D_t * obj, float radians)
+{
+    if (!obj) return;
+    glm_rotate_z(obj->model, radians, obj->model);
+}
+
 void gm_renderObject(Object3D_t * obj, GLuint program)
 {
     if (!obj) return;

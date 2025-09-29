@@ -33,6 +33,10 @@ size_t gm_getObjectTriangleCount(Object3D_t * obj);
 void gm_moveObject(Object3D_t * obj, vec3 by);
 void gm_setObjectPosition(Object3D_t * obj, vec3 pos);
 void gm_rotateObject(Object3D_t * obj, vec3 by);
+void gm_rotateObjectX(Object3D_t * obj, float radians);
+void gm_rotateObjectY(Object3D_t * obj, float radians);
+void gm_rotateObjectZ(Object3D_t * obj, float radians);
+
 
 void gm_renderObject(Object3D_t * obj, GLuint program);
 

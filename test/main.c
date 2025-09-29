@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     vec3 teapotPos = {0.0f, -1.5f, 0.0f};
     gm_setObjectPosition(teapot, teapotPos);
 
-	vec3 rotateRad = {0, (float)(M_PI / (double)gm_getFrameRate()), 0};
+	float modelRotate = M_PI / (double)gm_getFrameRate();
 	while(true)
 	{
 		gm_beginFrame();
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 	    gm_setWireframe(true);
 		gm_renderObject(icosahedron,shaderProg);
 	    gm_setWireframe(false);
-		gm_rotateObject(icosahedron, rotateRad);
+		gm_rotateObjectY(icosahedron, modelRotate);
 		gm_renderObject(teapot, shaderProg);
 
 		gm_renderDisplay();
